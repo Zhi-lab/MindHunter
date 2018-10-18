@@ -10,6 +10,17 @@
 
 2.roomTilemap(r_c)：
 构成地图中的房间地板，每一个roomTilemap对应一个房间，其中r是房间所在行（从上往下数），c是房间所在列（从左往右数），比如roomTilemap1_4表示第一排第四列的房间
+这样设置的目的是为了简化判断角色所在的房间的逻辑，但是房间数多时可能比较影响游戏性能，可能还要再考虑
 使用roadTile填充，具有碰撞体，isTrigger初始设为true，因此没有物理碰撞效果
+
+3.doorTilemap:构成地图中的锁门，使用passableTile/unpassableTile填充，
+具有碰撞体，isTrigger初始设为false
+根据游戏逻辑，门具有上锁/解锁两种状态，上锁状态时应用unpassableTile填充，isTrigger初始设为false，
+解锁状态时用passableTile填充，isTrigger初始设为true，角色可直接通过
+
+4.LobbyTilemap：
+构成
+4.LobbyTilemap：地图
+4.LobbyTilemap
 
 
