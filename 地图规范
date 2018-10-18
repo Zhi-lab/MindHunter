@@ -1,10 +1,12 @@
+<--Tilemap基础-->
 地图涉及到Unity Tilemap的使用，每一个tilemap可以理解为一个网格状的图层
 网格上的每一格可以用一个tile填充，可以动态更改填充的tile，也可以清除已有的tile
 在tilemap上添加Tile Collider2D会为该tilemap里的所有tile添加碰撞体;
 *在tilemap上添加Composite Collider 2D，并将Tile Collider2D中的UsedByComposite设为true，可以将已有的collider整合
 此时如果需要动态控制碰撞体，应该访问Composite Collider 2D而不是Tile Collider2D
 
-地图由以下tilemap组成：
+<--地图tilemap规范-->
+地图由以下tilemap组成，每一个tilemap GameObject的transform需reset，每一个tilemap应该设置同名tag：
 
 1.wallTilemap：构成地图中的墙壁，使用wallTile填充，具有碰撞体，isTrigger初始设为false
 
@@ -13,14 +15,30 @@
 这样设置的目的是为了简化判断角色所在的房间的逻辑，但是房间数多时可能比较影响游戏性能，可能还要再考虑
 使用roadTile填充，具有碰撞体，isTrigger初始设为true，因此没有物理碰撞效果
 
-3.doorTilemap:构成地图中的锁门，使用passableTile/unpassableTile填充，
+3.doorTilemap:
+构成地图中的锁门，使用passableTile/unpassableTile填充，
 具有碰撞体，isTrigger初始设为false
 根据游戏逻辑，门具有上锁/解锁两种状态，上锁状态时应用unpassableTile填充，isTrigger初始设为false，
 解锁状态时用passableTile填充，isTrigger初始设为true，角色可直接通过
 
 4.LobbyTilemap：
-构成
-4.LobbyTilemap：地图
-4.LobbyTilemap
+构成地图中连接房间与房间之间的过道，使用roadTile填充，不具有碰撞体
 
+5.shadeTilemap：
+阴影层，初始无填充tile，orderInLayer = 999,根据hideInvisibleTiles方法动态在角色视野范围外的图层填充invisibleTile
 
+<--tilemap相关方法-->
+相关方法已写在tileUtility.cs中
+
+1.将某tilemap上某网格位置的tile替换为另一tile
+public void changeToReplaceTile(Tilemap tilemap, Vector3Int position, TileBase replaceTile, bool isHide = false)
+
+2.将角色视野外的地图用黑色tile覆盖，从而实现阴影效果
+public void hideInvisibleTiles(Tilemap shadeTilemap, Vector3Int position)
+
+3.返回某一角色在tilemap中的网格位置
+public Vector3Int getAvatarPosInTilemap(Vector3 position)
+
+<--map基本参数-->
+MapConfig类用于存储map的基本参数
+目前包
