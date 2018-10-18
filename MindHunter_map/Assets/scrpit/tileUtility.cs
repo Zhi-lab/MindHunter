@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class tileUtility : MonoBehaviour
+public class TileUtility : MonoBehaviour
 {
+    /*
     public TileBase[] replaceTiles;
     public TileBase hideTile;
     public GameObject player;
+    public Transform playerTransform;
     //mapSizeRow，mapSizeColumn均为测试用参数
     int mapSizeRow = 17;
     int mapSizeColumn = 17;
@@ -17,18 +19,27 @@ public class tileUtility : MonoBehaviour
     private Tilemap shadeTilemap;
     private Tilemap[] tilemaps;
 
+
     void Start()
     {
         //tilemap = GetComponent<Tilemap>();
         player = GameObject.FindGameObjectWithTag("Player");//.GetComponent<PlayerCountroller>();
+        playerTransform = player.transform;
         shadeTilemap = GameObject.FindGameObjectWithTag("shadeTile").GetComponent<Tilemap>();
         //测试
         //changeToReplaceTile(tilemap, player.GetComponent<PlayerCountroller>().getPlayerPosInTilemap(), replaceTiles[0]);
     }
+
     void Update()
     {
-        hideInvisibleTiles(shadeTilemap, player.GetComponent<PlayerCountroller>().getPlayerPosInTilemap());
+        //阴影效果
+        hideInvisibleTiles(shadeTilemap, getAvatarPosInTilemap(playerTransform.position));
     }
+    */
+    /*
+     * changeToReplaceTile函数的作用是将指定tilemap上的指定网格位置上的tile进行替换，如果isHide = ture, 表示更改对象是阴影层tilemap
+     * 参数：tilemap指定要作用的tilemap，position指定要更改的网格位置，replaceTile用于替换的tile，isHide该函数当前作用的tilemap是不是shadeTilemap
+     */
     public void changeToReplaceTile(Tilemap tilemap, Vector3Int position, TileBase replaceTile, bool isHide = false)
     {
         TileBase changedtile = tilemap.GetTile(position);
@@ -44,25 +55,25 @@ public class tileUtility : MonoBehaviour
             if (changedtile != null)
             {
                 tilemap.SetTile(position, replaceTile);
-                //Debug.Log("Change tile in this position");
-            }
-            else
-            {
-                //Debug.Log("No tile in this position");
             }
         }
     }
-    public void hideInvisibleTiles(Tilemap shadTilemap, Vector3Int position)
+
+    /*
+     * hideInvisibleTiles函数的作用是将角色视野外的地图用黑色tile覆盖，从而实现阴影效果
+     * 参数：shadeTilemap遮罩层的tilemap，hideTile用于遮蔽的tile, position角色在网格中的坐标，config地图配置，viewSize角色视野
+    */
+    public void hideInvisibleTiles(Tilemap shadeTilemap, TileBase hideTile, Vector3Int position, MapConfig config, int viewSize)
     {
         int rowCounter = 0;
         int colomnCounter = 0;
-        int checkRow = startY;
-        int checkColomn = startX;
-        while (rowCounter < mapSizeRow)
+        int checkRow = config.startY;
+        int checkColomn = config.startX;
+        while (rowCounter < config.mapSizeRow)
         {
             colomnCounter = 0;
-            checkColomn = startX;
-            while (colomnCounter < mapSizeColumn)
+            checkColomn = config.startX;
+            while (colomnCounter < config.mapSizeColumn)
             {
                 if (Mathf.Abs(checkColomn - position.x) > viewSize || Mathf.Abs(checkRow - position.y) > viewSize)
                 {
@@ -81,38 +92,16 @@ public class tileUtility : MonoBehaviour
     }
 
     /*
-    public GameObject theTilemapG;
-    private Tilemap theTilemap;
-    public TileBase replaceTile;
-    
-    // Use this for initialization
-    void Start () {
-        theTilemapG = GameObject.FindGameObjectWithTag("tilemap");
-        theTilemap = theTilemapG.GetComponent<Tilemap>();
-        FindReplaceableTilesInTilemap(theTilemap);
-    }
-
-    // Update is called once per frame
-    void Update () {
-        
-    }
-    private void FindReplaceableTilesInTilemap(Tilemap tilemap)
-    {
-        foreach (var position in tilemap.cellBounds.allPositionsWithin)
-        {
-            TileBase tile = tilemap.GetTile(position);
-            if (tile != null)
-            {
-                HandleReplaceTile(tilemap, tile, position);
-            }
-        }
-    }
-    private void HandleReplaceTile(Tilemap tilemap, TileBase tile, Vector3Int position)
-    {
-
-        tilemap.SetTile(position, replaceTile);
-            
-    }
+     * 参数：position角色GameObject的位置
+     * 返回值：player GameObject的位置在tilemap中的位置
+     * 示例：player GameObject的位置为(-1.5,-2.8,0)，则所对应的tilemap的位置为(-2,-3,0)
     */
-
+    public Vector3Int getAvatarPosInTilemap(Vector3 position)
+    {
+        int x = Mathf.FloorToInt(position.x);
+        int y = Mathf.FloorToInt(position.y);
+        int z = Mathf.FloorToInt(position.z);
+        Vector3Int posInTilemap = new Vector3Int(x, y, z);
+        return posInTilemap;
+    }
 }

@@ -61,8 +61,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\scrpit\PlayerCountroller.cs" />
-    <Compile Include="Assets\scrpit\tileUtility.cs" />
+    <Compile Include="Assets\scrpit\MapConfig.cs" />
+    <Compile Include="Assets\scrpit\PlayerController.cs" />
+    <Compile Include="Assets\scrpit\TileController.cs" />
+    <Compile Include="Assets\scrpit\TileUtility.cs" />
     <Compile Include="Assets\test\changeColorTile.cs" />
     <Compile Include="Assets\test\NeighbourTile.cs" />
     <Compile Include="Assets\test\test.cs" />

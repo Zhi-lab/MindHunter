@@ -6338,10 +6338,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2f036731ddf941a4914c2d87dae9f43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  replaceTiles:
-  - {fileID: 11400000, guid: ed48479513f484048aff9faf54f1ccd7, type: 2}
-  hideTile: {fileID: 0}
-  player: {fileID: 0}
 --- !u!1 &511146294
 GameObject:
   m_ObjectHideFlags: 0
@@ -21223,6 +21219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 967618333}
   - component: {fileID: 967618332}
+  - component: {fileID: 967618334}
   m_Layer: 0
   m_Name: tileController
   m_TagString: Untagged
@@ -21241,9 +21238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2f036731ddf941a4914c2d87dae9f43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  replaceTiles: []
-  hideTile: {fileID: 11400000, guid: 0a9cb88ff5a5f4f3882034ea19d4edfa, type: 2}
-  player: {fileID: 0}
 --- !u!4 &967618333
 Transform:
   m_ObjectHideFlags: 0
@@ -21257,6 +21251,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &967618334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 967618331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3b89fcc2b38449391a29db3f093f66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  replaceTiles: []
+  hideTile: {fileID: 11400000, guid: 0a9cb88ff5a5f4f3882034ea19d4edfa, type: 2}
+  player: {fileID: 0}
+  playerTransform: {fileID: 0}
+  playerController: {fileID: 0}
 --- !u!1 &1033346737
 GameObject:
   m_ObjectHideFlags: 0
@@ -21288,6 +21298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  viewSize: 5
 --- !u!212 &1033346739
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -23786,7 +23797,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 9.5
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
