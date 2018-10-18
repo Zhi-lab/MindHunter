@@ -5,6 +5,8 @@
 *在tilemap上添加Composite Collider 2D，并将Tile Collider2D中的UsedByComposite设为true，可以将已有的collider整合
 此时如果需要动态控制碰撞体，应该访问Composite Collider 2D而不是Tile Collider2D
 
+
+
 <--地图tilemap规范-->
 地图由以下tilemap组成，每一个tilemap GameObject的transform需reset，每一个tilemap应该设置同名tag：
 
@@ -27,6 +29,8 @@
 5.shadeTilemap：
 阴影层，初始无填充tile，orderInLayer = 999,根据hideInvisibleTiles方法动态在角色视野范围外的图层填充invisibleTile
 
+
+
 <--tilemap相关方法-->
 相关方法已写在tileUtility.cs中
 
@@ -39,6 +43,12 @@ public void hideInvisibleTiles(Tilemap shadeTilemap, Vector3Int position)
 3.返回某一角色在tilemap中的网格位置
 public Vector3Int getAvatarPosInTilemap(Vector3 position)
 
+
+
 <--map基本参数-->
 MapConfig类用于存储map的基本参数
-目前包
+目前包括参数：
+mapSizeRow 行数
+mapSizeColumn 列数
+startX 最左上角的房间在网格中的X坐标
+startY 最左上角的房间在网格中的Y坐标
