@@ -1,0 +1,8 @@
+地图涉及到Unity Tilemap的使用，每一个tilemap可以理解为一个网格状的图层
+网格上的每一格可以用一个tile填充，可以动态更改填充的tile，也可以清除已有的tile
+在tilemap上添加Tile Collider2D会为该tilemap里的所有tile添加碰撞体;
+*在tilemap上添加Composite Collider 2D，并将Tile Collider2D中的UsedByComposite设为true，可以将已有的collider整合
+此时如果需要动态控制碰撞体，应该访问Composite Collider 2D而不是Tile Collider2D
+
+地图元素包括以下，每一种地图元素都对应一个tile
+
