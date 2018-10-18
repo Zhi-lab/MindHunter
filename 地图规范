@@ -4,5 +4,12 @@
 *在tilemap上添加Composite Collider 2D，并将Tile Collider2D中的UsedByComposite设为true，可以将已有的collider整合
 此时如果需要动态控制碰撞体，应该访问Composite Collider 2D而不是Tile Collider2D
 
-地图元素包括以下，每一种地图元素都对应一个tile
+地图由以下tilemap组成：
+
+1.wallTilemap：构成地图中的墙壁，使用wallTile填充，具有碰撞体，isTrigger初始设为false
+
+2.roomTilemap(r_c)：
+构成地图中的房间地板，每一个roomTilemap对应一个房间，其中r是房间所在行（从上往下数），c是房间所在列（从左往右数），比如roomTilemap1_4表示第一排第四列的房间
+使用roadTile填充，具有碰撞体，isTrigger初始设为true，因此没有物理碰撞效果
+
 
