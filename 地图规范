@@ -52,3 +52,4 @@ mapSizeRow 行数
 mapSizeColumn 列数
 startX 最左上角的房间在网格中的X坐标
 startY 最左上角的房间在网格中的Y坐标
+总房间数
