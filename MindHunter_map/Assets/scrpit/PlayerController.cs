@@ -15,14 +15,16 @@ public class PlayerController : MonoBehaviour
     public Sprite skillSprite;//2D Sprite的预设
     private Sprite skillEffect;//要创建的Sprite
     float skillSpeed = 12;
+    public GameObject attatchTo=null;
+    public ScriptableObject skillController;
 
     // Use this for initialization
-    void Start()
+    protected void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void move(bool enable=true)
+     protected void  move(bool enable=true)
     {
         if(enable==false)
         {
@@ -70,7 +72,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void InvokeSkill()
+    void CastSkill()
     {
         skillSprite=Resources.Load<Sprite>("skillSprite");
         GameObject gameObject = new GameObject();
@@ -112,7 +114,8 @@ public class PlayerController : MonoBehaviour
             //抬起后清空帧数
             skill.holdFrames=0;
             Debug.Log("释放");
-            InvokeSkill();
+            CastSkill();
+            return;
         }
         if (skill.holdFrames == 0)
         {
