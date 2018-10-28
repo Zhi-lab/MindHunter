@@ -26,7 +26,6 @@ public class SkillController : MonoBehaviour
             playerController.enabled = false;
             playerController.attatchTo = collision.collider.gameObject;
             player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-            collision.collider.gameObject.GetComponent<PlayerController>().enabled=true;
         }
         else if(collision.collider!=player)
         {

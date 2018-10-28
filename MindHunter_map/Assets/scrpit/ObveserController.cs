@@ -9,9 +9,16 @@ public class ObveserController : MonoBehaviour {
     private GameObject[] fighters;
     private GameObject[] servants;
     private TileUtility tileUtility;
+    private PathFinder pathFinder;
     public Vector2Int winRoom;
+    private void Awake()
+    {
+
+        pathFinder = new PathFinder();
+        pathFinder.init();
+    }
     // Use this for initialization
-    void Start() {
+    void Start(){
         player = GameObject.FindGameObjectWithTag("Player");
         boss = GameObject.FindGameObjectWithTag("boss");
         fighters = GameObject.FindGameObjectsWithTag("fighter");
@@ -37,7 +44,7 @@ public class ObveserController : MonoBehaviour {
         return new Vector2Int(Mathf.FloorToInt( v2d.x/4 ),Mathf.FloorToInt(v2d.y/4));
     }
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
         var playerRoom = CalcRoom(player.transform.position);
         foreach (var servant in servants)
         {
