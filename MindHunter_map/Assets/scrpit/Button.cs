@@ -19,13 +19,13 @@ public class Button : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        this.transform.localScale = new Vector3(1.4f, 1.4f, 1);
-        this.GetComponentInChildren<Text>().text = "<color=#FF0000>开始游戏</color>";
+     //   this.transform.localScale = new Vector3(1.4f, 1.4f, 1);
+        this.GetComponentInChildren<Text>().text = "<color=#831010>START GAME</color>";
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         this.transform.localScale = new Vector3(1f, 1f, 1);
-        this.GetComponentInChildren<Text>().text = "<color=#8E8B8B>开始游戏</color>";
+        this.GetComponentInChildren<Text>().text = "<color=#8E8B8B>START GAME</color>";
     }
 }
