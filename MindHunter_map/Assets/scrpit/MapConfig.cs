@@ -68,4 +68,22 @@ public class MapConfig  {
         }
         return connectionMatrix;
     }
+
+    //根据房间所在行列，返回房间的中心坐标（标准世界坐标）
+    public float[] getRoomCenterLocWithRandC(int roomRow, int roomColumn){
+        Room room = roomList.Find(x => x.ID == (roomRow - 1) * columnNum + roomColumn);
+        float[] roomCenterLoc = new float[2]{room.roomCenterLocX + 0.5f, room.roomCenterLocY + 0.5f};
+        return roomCenterLoc;
+    }
+
+    //根据某个二维坐标值返回该二维坐标值对应的房间行列
+    public int[] getRoomRandCWithRoomLoc(Vector2 position){
+        float posX = position.x;
+        float posY = position.y;
+
+        List<Room> rooms = roomList.FindAll(x => Mathf.Abs(x.roomCenterLocX - posX) < Mathf.FloorToInt(roomScale / 2) + 1);
+        Room room = rooms.Find(x => Mathf.Abs(x.roomCenterLocY - posY) < Mathf.FloorToInt(roomScale / 2) + 1);
+
+        return new int[2] { room.row, room.column };
+    }
 }

@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\scrpit\AutoGenerateMap.cs" />
+    <Compile Include="Assets\scrpit\class\pathFinder.cs" />
     <Compile Include="Assets\scrpit\class\skill.cs" />
     <Compile Include="Assets\scrpit\LobbyConnection.cs" />
     <Compile Include="Assets\scrpit\MapConfig.cs" />

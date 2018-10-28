@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
                 moveHorizontal = moveHorizontal / 1.4f;
             }
         }
+        Debug.Log(rb);
         rb.velocity = new Vector2(moveHorizontal, moveVertical);
 
     }

@@ -9,6 +9,9 @@ TagManager:
   - doorTile
   - lobbyTile
   - shadeTile
+  - servant
+  - fighter
+  - boss
   layers:
   - Default
   - TransparentFX

@@ -17,7 +17,7 @@ public class OtherRoleController : PlayerController {
     Vector3Int RoomPos;
     protected new void Start()
     {
-        doorTileMap = GameObject.FindGameObjectWithTag("doorTile").GetComponent<Tilemap>();
+        //doorTileMap = GameObject.FindGameObjectWithTag("doorTile").GetComponent<Tilemap>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
         base.Start();
@@ -32,6 +32,7 @@ public class OtherRoleController : PlayerController {
     //	Update is called once per frame
     void FixedUpdate()
     {
+        Debug.Log(player);
         if (playerController.attatchTo == gameObject)
         {
             move();
