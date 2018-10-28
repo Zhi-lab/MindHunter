@@ -19,6 +19,7 @@ public class Room {
     public int roomDown;
     //该房间是否是Boss房间，默认值是false
     public bool isBossRoom;
+    public int roomType;
 
     public Room(int _ID, int _row, int _column){
         this.ID = _ID;
@@ -34,6 +35,7 @@ public class Room {
         this.isBossRoom = false;
         this.roomCenterLocX = 0;
         this.roomCenterLocY = 0;
+        this.roomType = 0;
     }
 
     public void addConnectRooms(List<Room> roomList)

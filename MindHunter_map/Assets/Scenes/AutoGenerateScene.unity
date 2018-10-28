@@ -490,6 +490,10 @@ MonoBehaviour:
   doorVerticalTile: {fileID: 11400000, guid: efd07407b90f54b49ba983771aa1ad30, type: 2}
   doorHorizontalTile: {fileID: 11400000, guid: 48e8c28cafddc476a9cee2750e89e305, type: 2}
   tileUtility: {fileID: 0}
+  player: {fileID: 1612157877322120, guid: 720c3360706274c2c9fe9d9e1a2dd31b, type: 2}
+  servant: {fileID: 1679043289090458, guid: a74b6ad8ff62e44198f9d6cb11140bf3, type: 2}
+  boss: {fileID: 1737977576948556, guid: 1132bcde9af8c42dd867df31405d24af, type: 2}
+  fighter: {fileID: 1823801155547782, guid: 221857003f562481787b302880d93a76, type: 2}
 --- !u!4 &1792690646
 Transform:
   m_ObjectHideFlags: 0
