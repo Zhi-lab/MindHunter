@@ -4255,27 +4255,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!1 &104222383 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1612157877322120, guid: 720c3360706274c2c9fe9d9e1a2dd31b,
-    type: 2}
-  m_PrefabInternal: {fileID: 1248813128}
---- !u!114 &104222386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 104222383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90315035e20fe4a13b0951e23fef4aaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 3
-  viewSize: 5
-  skillSprite: {fileID: 0}
-  attatchTo: {fileID: 0}
-  skillController: {fileID: 0}
 --- !u!1 &214480592
 GameObject:
   m_ObjectHideFlags: 0
@@ -8671,11 +8650,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4315614756478016, guid: 221857003f562481787b302880d93a76, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 1.5
+      value: 2.44
       objectReference: {fileID: 0}
     - target: {fileID: 4315614756478016, guid: 221857003f562481787b302880d93a76, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.5
+      value: -1.32
       objectReference: {fileID: 0}
     - target: {fileID: 4315614756478016, guid: 221857003f562481787b302880d93a76, type: 2}
       propertyPath: m_LocalPosition.z
@@ -17340,7 +17319,7 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 50a945841caec4f579843a9d9e6f30be, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -23939,11 +23918,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4885630091003940, guid: 720c3360706274c2c9fe9d9e1a2dd31b, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 6.56
+      value: 6.64
       objectReference: {fileID: 0}
     - target: {fileID: 4885630091003940, guid: 720c3360706274c2c9fe9d9e1a2dd31b, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -3.2
+      value: -5.38
       objectReference: {fileID: 0}
     - target: {fileID: 4885630091003940, guid: 720c3360706274c2c9fe9d9e1a2dd31b, type: 2}
       propertyPath: m_LocalPosition.z
@@ -23969,13 +23948,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 50159084345466532, guid: 720c3360706274c2c9fe9d9e1a2dd31b,
+    - target: {fileID: 114163847074259942, guid: 720c3360706274c2c9fe9d9e1a2dd31b,
         type: 2}
-      propertyPath: m_Constraints
-      value: 4
+      propertyPath: viewSize
+      value: 3
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114149283753509038, guid: 720c3360706274c2c9fe9d9e1a2dd31b, type: 2}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 720c3360706274c2c9fe9d9e1a2dd31b, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1280678279
@@ -23988,6 +23966,7 @@ GameObject:
   - component: {fileID: 1280678282}
   - component: {fileID: 1280678281}
   - component: {fileID: 1280678280}
+  - component: {fileID: 1280678283}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -24026,7 +24005,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -24055,6 +24034,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1280678283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1280678279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d341554678b834e63899d0ac5282d9b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  playerTransform: {fileID: 0}
+  playerController: {fileID: 0}
 --- !u!1 &1282566000
 GameObject:
   m_ObjectHideFlags: 0
@@ -26139,7 +26132,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4381705978783014, guid: a74b6ad8ff62e44198f9d6cb11140bf3, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.23
+      value: -1.3
       objectReference: {fileID: 0}
     - target: {fileID: 4381705978783014, guid: a74b6ad8ff62e44198f9d6cb11140bf3, type: 2}
       propertyPath: m_LocalPosition.z

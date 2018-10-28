@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4885630091003940}
   - component: {fileID: 212021105009635156}
-  - component: {fileID: 114149283753509038}
   - component: {fileID: 50159084345466532}
   - component: {fileID: 58793047046661222}
+  - component: {fileID: 114163847074259942}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1612157877322120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.6, y: -5.74, z: 0}
+  m_LocalPosition: {x: 6.64, y: -5.38, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -78,7 +78,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.25
---- !u!114 &114149283753509038
+--- !u!114 &114163847074259942
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,7 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   viewSize: 3
-  skillSprite: {fileID: 21300000, guid: a3fd03ed483f74d9cb5c079984f9c8c8, type: 3}
+  skillSprite: {fileID: 0}
   attatchTo: {fileID: 0}
   skillController: {fileID: 0}
 --- !u!212 &212021105009635156
