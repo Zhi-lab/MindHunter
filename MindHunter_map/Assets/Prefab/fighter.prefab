@@ -89,8 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83866e52f57a4430ab913400fa007a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  viewSize: 5
+  speed: 3
+  viewSize: 3
   skillSprite: {fileID: 0}
   attatchTo: {fileID: 0}
   skillController: {fileID: 0}
