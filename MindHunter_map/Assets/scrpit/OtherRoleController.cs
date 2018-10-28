@@ -9,47 +9,71 @@ public class OtherRoleController : PlayerController {
     TileUtility tileUtility = new TileUtility();
     private Tilemap doorTileMap;
     public TileBase passTile;
-    protected void Start()
+    public TileBase unpassTile;
+    GameObject player;
+    PlayerController playerController;
+    public  Vector2Int initTarget;
+    public  Vector2Int stay;
+    Vector3Int RoomPos;
+    protected new void Start()
     {
         doorTileMap = GameObject.FindGameObjectWithTag("doorTile").GetComponent<Tilemap>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerController = player.GetComponent<PlayerController>();
         base.Start();
     }
 
     void release()
     {
-        var player = GameObject.FindGameObjectWithTag("Player");
-        var playerController = player.GetComponent<PlayerController>();
         playerController.enabled = true;
         playerController.attatchTo = null;
-        enabled = false;
         gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
     }
     //	Update is called once per frame
     void FixedUpdate()
     {
-        move();
-        if (Input.GetKeyDown(KeyCode.C))
+        if (playerController.attatchTo == gameObject)
         {
-            pressed = true;
-        }
-        if (Input.GetKeyUp(KeyCode.C) || (!Input.GetKey(KeyCode.C) && pressed == true))
-        {
-            release();
-            pressed = false;
+            move();
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                pressed = true;
+            }
+            if (Input.GetKeyUp(KeyCode.C) || (!Input.GetKey(KeyCode.C) && pressed == true))
+            {
+                release();
+                pressed = false;
+            }
         }
     }
+    
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (tag == "servant" && collider.tag == "doorTile" && playerController.attatchTo != gameObject&& tileUtility.getAvatarPosInTilemap(transform.position)!=RoomPos)
+        {
 
+            var doorTileMap = collider.gameObject.GetComponent<Tilemap>();
+            collider.gameObject.GetComponent<CompositeCollider2D>().isTrigger = false;
+            tileUtility.changeToReplaceTile(doorTileMap, RoomPos, unpassTile);
+        }
+
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (enabled)
+        if (tag == "servant" && collision.collider.tag == "doorTile")
         {
-            if (tag == "servant" && collision.collider.name == "doorTilemap")
-            {
-                var contact = collision.GetContact(0).point;
-                var pos = tileUtility.getAvatarPosInTilemap(2 * new Vector3(contact.x, contact.y) - transform.position);
-                tileUtility.changeToReplaceTile(doorTileMap, pos, passTile);
-            }
+            var doorTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
+            collision.collider.gameObject.GetComponent<CompositeCollider2D>().isTrigger = true;
+            var contact = collision.GetContact(0).point;
+            var pos = tileUtility.getAvatarPosInTilemap(2 * new Vector3(contact.x, contact.y) - transform.position);
 
+            RoomPos = pos;
+            tileUtility.changeToReplaceTile(doorTileMap, pos, passTile);
+        }
+
+        if (playerController.attatchTo== gameObject)
+        {
+           
             if (tag == "fighter" && (collision.collider.tag == "boss" || collision.collider.tag == "servant" || collision.collider.tag == "fighter"))
             {
                 Destroy(collision.collider.gameObject);
