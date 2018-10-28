@@ -19,6 +19,8 @@ public class Room {
     public int roomDown;
     //该房间是否是Boss房间，默认值是false
     public bool isBossRoom;
+    //该房间初始状态是谁在，0表示没人，1 = player, 2 = servant, 3 = fighter, 4 = boss;
+    public int roomType;
 
     public Room(int _ID, int _row, int _column){
         this.ID = _ID;
