@@ -43,7 +43,7 @@ public class TileUtility : MonoBehaviour
     public void changeToReplaceTile(Tilemap tilemap, Vector3Int position, TileBase replaceTile, bool isHide = false)
     {
         TileBase changedtile = tilemap.GetTile(position);
-        //如果替换对象是来自于阴影层，则直接替换
+        //如果替换对象是来自于阴影层或者该函数用于生成地图，则直接替换
         if (isHide)
         {
             tilemap.SetTile(position, replaceTile);
@@ -90,6 +90,17 @@ public class TileUtility : MonoBehaviour
             checkRow -= 1;
         }
     }
+
+    //确认某图层某位置是否存在瓷砖
+    public bool isTileExistInPos(Tilemap tilemap, Vector3Int position)
+    {
+        TileBase changedtile = tilemap.GetTile(position);
+        if(changedtile != null){
+            return true;
+        }
+        return false;
+    }
+
 
     /*
      * 参数：position角色GameObject的位置
