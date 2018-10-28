@@ -19,11 +19,12 @@ public class TileController : MonoBehaviour {
     void Start()
     {
         //tilemap = GetComponent<Tilemap>();
-        tileUtility = new TileUtility();
         shadeTilemap = GameObject.FindGameObjectWithTag("shadeTile").GetComponent<Tilemap>();
+        tileUtility = new TileUtility();
         player = GameObject.FindGameObjectWithTag("Player");//.GetComponent<PlayerCountroller>();
         playerController = player.GetComponent<PlayerController>();
         playerTransform = player.transform;
+
         //测试
         //changeToReplaceTile(tilemap, player.GetComponent<PlayerCountroller>().getPlayerPosInTilemap(), replaceTiles[0]);
     }
@@ -32,7 +33,7 @@ public class TileController : MonoBehaviour {
     {
         int viewSize;
         if(player == null){
-            player = GameObject.FindGameObjectWithTag("Player");
+            player = GameObject.FindGameObjectWithTag("Player");//.GetComponent<PlayerCountroller>();
             playerController = player.GetComponent<PlayerController>();
             playerTransform = player.transform;
         }
@@ -47,8 +48,6 @@ public class TileController : MonoBehaviour {
             viewSize = playerController.viewSize;
         }
         //阴影效果
-        Debug.Log("playerTransform");
-        Debug.Log(playerTransform);
         Vector3Int avatarPositionInGrid = tileUtility.getAvatarPosInTilemap(playerTransform.position);
         tileUtility.hideInvisibleTiles(shadeTilemap, hideTile, avatarPositionInGrid, config, viewSize);
     }
