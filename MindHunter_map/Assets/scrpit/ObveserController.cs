@@ -10,6 +10,7 @@ public class ObveserController : MonoBehaviour {
     private GameObject[] servants;
     private TileUtility tileUtility;
     public Vector2Int winRoom;
+    public PathFinder pathFinder;
     // Use this for initialization
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -18,6 +19,11 @@ public class ObveserController : MonoBehaviour {
         servants = GameObject.FindGameObjectsWithTag("servant");
         tileUtility = new TileUtility();
         winRoom = new Vector2Int(-2, 1);
+    }
+    public void Awake()
+    {
+        pathFinder = new PathFinder();
+        pathFinder.init();
     }
     void Lose()
     {
