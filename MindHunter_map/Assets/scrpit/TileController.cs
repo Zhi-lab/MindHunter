@@ -31,9 +31,19 @@ public class TileController : MonoBehaviour {
 
     void Update()
     {
+        int viewSize;
+        if(playerController.attatchTo!=null)
+        {
+            playerTransform = playerController.attatchTo.transform;
+            viewSize = playerController.attatchTo.GetComponent<PlayerController>().viewSize;
+        }
+        else
+        {
+            playerTransform = player.transform;
+            viewSize = playerController.viewSize;
+        }
         //阴影效果
         Vector3Int avatarPositionInGrid = tileUtility.getAvatarPosInTilemap(playerTransform.position);
-        tileUtility.hideInvisibleTiles(shadeTilemap, hideTile, avatarPositionInGrid, config, playerController.viewSize);
+        tileUtility.hideInvisibleTiles(shadeTilemap, hideTile, avatarPositionInGrid, config, viewSize);
     }
-
 }
