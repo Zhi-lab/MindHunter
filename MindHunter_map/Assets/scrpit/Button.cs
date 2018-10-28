@@ -8,8 +8,8 @@ public class Button : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+
+     }
 
 
     // Update is called once per frame
