@@ -15,11 +15,14 @@ public class OtherRoleController : PlayerController {
     public  Vector2Int initTarget;
     public  Vector2Int stay;
     Vector3Int RoomPos;
+    private statusBarController statusBarController;
     protected new void Start()
     {
         //doorTileMap = GameObject.FindGameObjectWithTag("doorTile").GetComponent<Tilemap>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
+        //UI
+        statusBarController = GameObject.Find("statusBar").GetComponent<statusBarController>();
         base.Start();
     }
 
@@ -28,11 +31,19 @@ public class OtherRoleController : PlayerController {
         playerController.enabled = true;
         playerController.attatchTo = null;
         gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+        if (statusBarController != null)
+        {
+            statusBarController.setPlayerIcon(true);
+            statusBarController.setButtons();
+        }
     }
     //	Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log(player);
+        if (statusBarController == null)
+        {
+            statusBarController = GameObject.Find("statusBar").GetComponent<statusBarController>();
+        }
         if (playerController.attatchTo == gameObject)
         {
             move();

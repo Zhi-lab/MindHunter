@@ -18,13 +18,14 @@ public class PlayerController : MonoBehaviour
     public GameObject attatchTo=null;
     public ScriptableObject skillController;
 
+
     // Use this for initialization
     protected void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-     protected void  move(bool enable=true)
+     protected void move(bool enable=true)
     {
         if(enable==false)
         {
@@ -68,9 +69,7 @@ public class PlayerController : MonoBehaviour
                 moveHorizontal = moveHorizontal / 1.4f;
             }
         }
-        Debug.Log(rb);
         rb.velocity = new Vector2(moveHorizontal, moveVertical);
-
     }
 
     void CastSkill()
@@ -110,7 +109,7 @@ public class PlayerController : MonoBehaviour
             skill.holdFrames++;
             Debug.Log("连按:" + skill.holdFrames + "帧");
         }
-        if (Input.GetMouseButtonUp(1)|| (skill.holdFrames!=0&&!Input.GetMouseButton(1)))
+        if (Input.GetMouseButtonUp(1)|| (skill.holdFrames!=0 && !Input.GetMouseButton(1)))
         {
             //抬起后清空帧数
             skill.holdFrames=0;

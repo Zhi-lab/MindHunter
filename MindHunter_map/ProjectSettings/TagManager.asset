@@ -12,6 +12,9 @@ TagManager:
   - servant
   - fighter
   - boss
+  - enemyIcon
+  - playerIcon
+  - alarmIcon
   layers:
   - Default
   - TransparentFX

@@ -50,10 +50,11 @@ public class MapConfig  {
         this.roomNumEachColumn = roomNumEachColumn;
         this.rowNum = roomNumEachColumn;
         this.columnNum = roomNumEachRow;
+        this.roomNum = roomNumEachColumn * roomNumEachRow;
         this.roomList = new List<Room>();
 
         //测试用
-        this.doorNum = 3;
+        this.doorNum = Mathf.FloorToInt(roomNum / 10);
         this.roomScale = 3;
 
         this.mapSizeRow = roomNumEachRow * roomScale + roomNumEachRow + 1;
