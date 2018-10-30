@@ -47,6 +47,9 @@ public class OtherRoleController : PlayerController
     //	Update is called once per frame
     void FixedUpdate()
     {
+        //if(pathFinder == null){
+            //pathFinder = GameObject.FindObjectOfType<ObveserController>().pathFinder;
+        //}
         if (playerController.attatchTo == gameObject)
         {
             move();

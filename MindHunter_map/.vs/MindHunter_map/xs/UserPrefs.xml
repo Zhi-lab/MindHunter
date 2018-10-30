@@ -1,20 +1,29 @@
 ﻿<Properties StartupConfiguration="{F6692542-714B-478B-F4B1-B0284E818619}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scrpit/CameraController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scrpit/OtherRoleController.cs">
     <Files>
-      <File FileName="Assets/scrpit/OtherRoleController.cs" Line="35" Column="27" />
+      <File FileName="Assets/scrpit/OtherRoleController.cs" Line="137" Column="18" />
       <File FileName="Assets/scrpit/PlayerController.cs" Line="72" Column="1" />
-      <File FileName="Assets/scrpit/ObveserController.cs" Line="1" Column="1" />
+      <File FileName="Assets/scrpit/ObveserController.cs" Line="29" Column="62" />
       <File FileName="Assets/scrpit/Room.cs" Line="1" Column="1" />
-      <File FileName="Assets/scrpit/MapConfig.cs" Line="77" Column="6" />
+      <File FileName="Assets/scrpit/MapConfig.cs" Line="54" Column="43" />
       <File FileName="Assets/scrpit/TileUtility.cs" Line="113" Column="46" />
-      <File FileName="Assets/scrpit/AutoGenerateMap.cs" Line="366" Column="10" />
-      <File FileName="Assets/scrpit/CameraController.cs" Line="36" Column="2" />
+      <File FileName="Assets/scrpit/AutoGenerateMap.cs" Line="361" Column="14" />
+      <File FileName="Assets/scrpit/CameraController.cs" Line="14" Column="26" />
+      <File FileName="Assets/scrpit/class/PathFinder.cs" Line="11" Column="1" />
+      <File FileName="../../Documents/MindHunter_map_10_28_4/Assets/scrpit/Button.cs" Line="12" Column="11" />
+      <File FileName="Assets/scrpit/MiddleToMain.cs" Line="14" Column="74" />
+      <File FileName="Assets/scrpit/StartToMiddle.cs" Line="1" Column="1" />
+      <File FileName="Assets/scrpit/statusBarController.cs" Line="1" Column="1" />
+      <File FileName="Assets/test/changeColorTile.cs" Line="12" Column="19" />
+      <File FileName="Assets/scrpit/AutoGenerationAvatars.cs" Line="5" Column="34" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/jerry/MindHunter/MindHunter_map/Assets/scrpit/OtherRoleController.cs" relfile="Assets/scrpit/OtherRoleController.cs" line="35" column="31" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />

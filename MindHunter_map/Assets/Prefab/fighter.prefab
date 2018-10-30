@@ -72,7 +72,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -94,10 +94,11 @@ MonoBehaviour:
   skillSprite: {fileID: 0}
   attatchTo: {fileID: 0}
   skillController: {fileID: 0}
-  passTile: {fileID: 0}
-  unpassTile: {fileID: 0}
-  initTarget: {x: 0, y: 0}
-  stay: {x: 0, y: 0}
+  scout: {x: 0, y: 0}
+  passTile_hori: {fileID: 0}
+  unpassTile_hori: {fileID: 0}
+  passTile_verti: {fileID: 0}
+  unpassTile_verti: {fileID: 0}
 --- !u!212 &212161228954517908
 SpriteRenderer:
   m_ObjectHideFlags: 1

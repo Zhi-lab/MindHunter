@@ -51,6 +51,7 @@ public class MapConfig  {
         this.rowNum = roomNumEachColumn;
         this.columnNum = roomNumEachRow;
         this.roomList = new List<Room>();
+        this.roomNum = rowNum * columnNum;
 
         //测试用
         this.doorNum = 3;

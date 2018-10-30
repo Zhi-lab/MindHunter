@@ -19,8 +19,8 @@ public class ObveserController : MonoBehaviour {
     }
     // Use this for initialization
     void Start(){
-        
         mapConfig = GameObject.FindObjectOfType<AutoGenerateMap>().config;
+        Debug.Log("start load map config");
         pathFinder = new PathFinder(mapConfig);
         pathFinder.init();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -47,6 +47,19 @@ public class ObveserController : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
+        if (mapConfig == null)
+        {
+            mapConfig = GameObject.FindObjectOfType<AutoGenerateMap>().config;
+            Debug.Log("start load map config");
+            pathFinder = new PathFinder(mapConfig);
+            pathFinder.init();
+            player = GameObject.FindGameObjectWithTag("Player");
+            boss = GameObject.FindGameObjectWithTag("boss");
+            fighters = GameObject.FindGameObjectsWithTag("fighter");
+            servants = GameObject.FindGameObjectsWithTag("servant");
+            tileUtility = new TileUtility();
+            winRoom = new Vector2Int(-2, 1);
+        }
         var playerRoom = CalcRoom(player.transform.position);
         bool alert = false;
         var attachTo = player.GetComponent<PlayerController>().attatchTo;
