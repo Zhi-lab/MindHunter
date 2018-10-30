@@ -27,6 +27,49 @@ public class MapConfig  {
     //房间列表
     public List<Room> roomList;
 
+    //教学模式用的Map
+
+    public MapConfig()
+    {
+        this.roomNumEachRow = 4;
+        this.roomNumEachColumn = 4;
+        this.rowNum = roomNumEachColumn;
+        this.columnNum = roomNumEachRow;
+        this.roomNum = rowNum * columnNum;
+        this.doorNum = 2;
+        this.roomScale = 3;
+        this.mapSizeRow = roomNumEachRow * roomScale + roomNumEachRow + 1;
+        this.mapSizeColumn = roomNumEachColumn * roomScale + roomNumEachColumn + 1;
+        this.roomList = new List<Room>();
+        int[] _roomRight = { 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1 };
+        int[] _roomDown = { 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1 };
+        for (int r = 0; r < rowNum; r++)
+        {
+            for (int c = 0; c < columnNum; c++)
+            {
+                Room room = new Room((r - 1) * columnNum + c + 1, r + 1, c + 1, _roomRight[0], _roomRight[1]);
+                roomList.Add(room);
+            }
+        }
+    }
+
+    public MapConfig(int roomNumEachRow, int roomNumEachColumn)
+    {
+        this.roomNumEachRow = roomNumEachRow;
+        this.roomNumEachColumn = roomNumEachColumn;
+        this.rowNum = roomNumEachColumn;
+        this.columnNum = roomNumEachRow;
+        this.roomList = new List<Room>();
+        this.roomNum = rowNum * columnNum;
+
+        //测试用
+        this.doorNum = Mathf.FloorToInt(roomNum / 5);
+        this.roomScale = 3;
+
+        this.mapSizeRow = roomNumEachRow * roomScale + roomNumEachRow + 1;
+        this.mapSizeColumn = roomNumEachColumn * roomScale + roomNumEachColumn + 1;
+    }
+
     public MapConfig(int mapSizeRow, int mapSizeColumn, int startX, int startY)
     {
         this.mapSizeRow = mapSizeRow;
@@ -44,22 +87,7 @@ public class MapConfig  {
         this.roomNum = roomNum;
         this.roomList = new List<Room>();
     }
-    public MapConfig(int roomNumEachRow, int roomNumEachColumn)
-    {
-        this.roomNumEachRow = roomNumEachRow;
-        this.roomNumEachColumn = roomNumEachColumn;
-        this.rowNum = roomNumEachColumn;
-        this.columnNum = roomNumEachRow;
-        this.roomList = new List<Room>();
-        this.roomNum = rowNum * columnNum;
 
-        //测试用
-        this.doorNum = 3;
-        this.roomScale = 3;
-
-        this.mapSizeRow = roomNumEachRow * roomScale + roomNumEachRow + 1;
-        this.mapSizeColumn = roomNumEachColumn * roomScale + roomNumEachColumn + 1;
-    }
     //使用该方法返回一个2x2x2矩阵,
     //例子：若想访问第二排的第三个房间，则访问connectionMatrix[2-1,3-1] = [0,1]，第一个0值表示房间右边是通路，第二个1值表示房间下方是墙壁
     public int[,][] getRoomConnectionList(){
@@ -86,5 +114,19 @@ public class MapConfig  {
         if (rooms.Count == 0)
             return null;
         return new Vector2Int(rooms[0].row-1, rooms[0].column-1);
+    }
+    public Vector2Int getNearestRoomLoc(Vector3 position)
+    {
+        float dis = (getRoomCenterLocWithRandC(roomList[0].row, roomList[0].column)-position).magnitude;
+        Room nearest = roomList[0];
+        foreach(var room in roomList)
+        {
+            if((getRoomCenterLocWithRandC(room.row-1, room.column-1) - position).magnitude<dis)
+            {
+                nearest = room;
+                dis = (getRoomCenterLocWithRandC(room.row-1, room.column-1) - position).magnitude;
+            }
+        }
+        return new Vector2Int(nearest.row - 1, nearest.column - 1);
     }
 }

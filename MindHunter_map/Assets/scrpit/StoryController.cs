@@ -18,8 +18,9 @@ public class StoryController : MonoBehaviour {
         tileUtility = new TileUtility();
         storyImg = this.GetComponent<Image>();
         //故事点1
+        storyPosList.Add(new Vector3Int(6, -6, 0));
+        //故事点2
         storyPosList.Add(new Vector3Int(6, -4, 0));
-
     }
 	
 	// Update is called once per frame
@@ -28,15 +29,32 @@ public class StoryController : MonoBehaviour {
     }
     public void storyFlow()
     {
-        Debug.Log("story");
-        //故事1触发
+
         if (tileUtility.getAvatarPosInTilemap(player.transform.position) == storyPosList[0])
+        {
+            Debug.Log("story");
+            //故事1触发
+            Debug.Log("story1");
+            hideAvatar("servant");
+            hideAvatar("fighter");
+            storyImg.sprite = storyImgList[0];
+            //storyImg.color = new Color(255, 255, 255, 10);
+            //showStory(false);
+        }
+        else if(tileUtility.getAvatarPosInTilemap(player.transform.position) == storyPosList[1])
         {
             Debug.Log("story1");
             hideAvatar("servant");
+            hideAvatar("fighter");
+            storyImg.sprite = storyImgList[1];
+            //storyImg.color = new Color(255, 255, 255, 100);
+            //showStory(false);
+        }
+        else{
+            storyImg.color = new Color(255, 255, 255, 0);
+            //showStory(true);
             showAvatar("servant");
-            storyImg.sprite = storyImgList[0];
-            storyImg.color = new Color(255, 255, 255, 255);
+            showAvatar("fighter");
         }
         /*
         //故事2触发
@@ -77,12 +95,13 @@ public class StoryController : MonoBehaviour {
         */
     }
     public void showStory(bool isOver){
-        PlayerController playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        playerController.enabled = !isOver;
         GameObject[] servants = GameObject.FindGameObjectsWithTag("servant");
-        foreach(var servant in servants){
+        foreach (var servant in servants)
+        {
             servant.GetComponent<OtherRoleController>().enabled = !isOver;
         }
+        PlayerController playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerController.enabled = !isOver;
     }
     public void hideAvatar(string tagName){
         GameObject[] avatars = GameObject.FindGameObjectsWithTag(tagName);

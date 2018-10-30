@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\scrpit\AudioFX.cs" />
     <Compile Include="Assets\scrpit\AutoGenerateMap.cs" />
     <Compile Include="Assets\scrpit\AutoGenerationAvatars.cs" />
     <Compile Include="Assets\scrpit\Button.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Assets\scrpit\StoryController.cs" />
     <Compile Include="Assets\scrpit\TileController.cs" />
     <Compile Include="Assets\scrpit\TileUtility.cs" />
+    <Compile Include="Assets\scrpit\TutorialOtherController.cs" />
     <Compile Include="Assets\test\changeColorTile.cs" />
     <Compile Include="Assets\test\NeighbourTile.cs" />
     <Compile Include="Assets\test\test.cs" />

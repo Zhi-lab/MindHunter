@@ -13,7 +13,7 @@ public class OtherRoleController : PlayerController
     GameObject player;
     PlayerController playerController;
     private Vector2Int target;
-
+    private Vector2Int next;
     private Vector2Int born;
     Vector3Int RoomPos;
     PathFinder pathFinder;
@@ -22,13 +22,23 @@ public class OtherRoleController : PlayerController
     public TileBase unpassTile_hori;
     public TileBase passTile_verti;
     public TileBase unpassTile_verti;
+    public double walkPrecision=0.1;
+    statusBarController statusBar;
+
     protected new void Start()
     {
         born = GameObject.FindObjectOfType<AutoGenerateMap>().config.getRoomRandCWithRoomLoc(new Vector2(transform.position.x, transform.position.y)).Value;
+        statusBar = GameObject.Find("statusBar").GetComponent<statusBarController>();
         if (tag == "servant")
+        {
             target = scout;
+            next = born;
+        }
         else
+        {
             target = born;
+            next = born;
+        }
         doorTileMap = GameObject.FindGameObjectWithTag("doorTile").GetComponent<Tilemap>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
@@ -43,6 +53,14 @@ public class OtherRoleController : PlayerController
         playerController.enabled = true;
         playerController.attatchTo = null;
         gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+        next = mapConfig.getNearestRoomLoc(new Vector2(transform.position.x,transform.position.y));
+
+        //Ui
+        statusBar.setPlayerIcon(true);
+        statusBar.setButtons();
+
+        //audio
+        musicController.switchtarget();
     }
     //	Update is called once per frame
     void FixedUpdate()
@@ -59,8 +77,8 @@ public class OtherRoleController : PlayerController
             }
             if (Input.GetKeyUp(KeyCode.C) || (!Input.GetKey(KeyCode.C) && pressed == true))
             {
-                release();
                 pressed = false;
+                release();
             }
             if(tag=="servant"&&Input.GetMouseButtonDown(1)&&mapConfig.getRoomRandCWithRoomLoc(transform.position)!=null)
             {
@@ -73,38 +91,41 @@ public class OtherRoleController : PlayerController
             var nowRoom = mapConfig.getRoomRandCWithRoomLoc(transform.position);
             if (nowRoom != null)
             {
-                var next = pathFinder.GoForward(nowRoom.Value, target, tag);
-                if(next != null&&next != nowRoom)
+                if (next != nowRoom)
                 {
-                    var direction= (mapConfig.getRoomCenterLocWithRandC(nowRoom.Value.x, nowRoom.Value.y)+ mapConfig.getRoomCenterLocWithRandC(next.Value.x, next.Value.y));
+                    var direction = (mapConfig.getRoomCenterLocWithRandC(nowRoom.Value.x, nowRoom.Value.y) + mapConfig.getRoomCenterLocWithRandC(next.x, next.y));
                     var dir = direction / 2;
-                    GetComponent<Rigidbody2D>().velocity = (dir - transform.position).normalized * speed ;
+                    GetComponent<Rigidbody2D>().velocity = (dir - transform.position).normalized * speed;
                 }
-                else if(next == nowRoom&&(mapConfig.getRoomCenterLocWithRandC(target.x,target.y)-transform.position).sqrMagnitude<0.3f)
+                else if (next == nowRoom && (mapConfig.getRoomCenterLocWithRandC(next.x, next.y) - transform.position).sqrMagnitude <= walkPrecision)
                 {
-                    if (tag=="servant")
+                    if (tag == "servant" && nowRoom == target)
                     {
-                        if(target==scout)
+                        if (target == scout)
                             target = born;
-                        else  if(target==born)
+                        else if (target == born)
                             target = scout;
                     }
+                    var tmp = pathFinder.GoForward(nowRoom.Value, target, tag);
+                    next = tmp.HasValue ? tmp.Value : next;
                 }
-                else  if(next == nowRoom && (mapConfig.getRoomCenterLocWithRandC(target.x, target.y) - transform.position).sqrMagnitude >= 0.5f)
-                {
-                    GetComponent<Rigidbody2D>().velocity = (mapConfig.getRoomCenterLocWithRandC(target.x, target.y) - transform.position).normalized;
-                }
+            }
+            if(nowRoom==null||(next == nowRoom && (mapConfig.getRoomCenterLocWithRandC(next.x, next.y) - transform.position).sqrMagnitude > walkPrecision))
+            {
+                GetComponent<Rigidbody2D>().velocity = (mapConfig.getRoomCenterLocWithRandC(next.x, next.y) - transform.position).normalized*speed;
             }
         }
     }
     public void  alert(Vector2Int alertRoom)
     {
         target = alertRoom;
+        statusBar.setAlarmIcon(true);
     }
 
     public void unAlert()
     {
         target = born;
+        statusBar.setAlarmIcon(false);
     }
     private void OnTriggerExit2D(Collider2D collider)
     {
@@ -134,6 +155,7 @@ public class OtherRoleController : PlayerController
     {
         if (tag == "servant" && collider.tag == "doorTile")
         {
+            //musicController.openthedoor();
             Debug.Log("open door");
             var doorTileMap = collider.gameObject.GetComponent<Tilemap>();
             Debug.Log(collider.name);
@@ -179,6 +201,7 @@ public class OtherRoleController : PlayerController
     {
         if (tag == "servant" && collision.collider.tag == "doorTile")
         {
+            musicController.openthedoor();
             Debug.Log("open door");
             var doorTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
             var contact = collision.GetContact(0).point;
@@ -205,12 +228,13 @@ public class OtherRoleController : PlayerController
 
             if (tag == "fighter" && (collision.collider.tag == "boss" || collision.collider.tag == "servant" || collision.collider.tag == "fighter"))
             {
+                musicController.fighterattack();
                 Debug.Log("fighter  kill "+gameObject.tag);
                 Destroy(collision.collider.gameObject);
                 release();
             }
         }
-        if (tag == "fighter" && collision.collider.tag == "Player")
+        if (tag == "fighter" && collision.collider.tag == "Player" && playerController.attatchTo != gameObject)
         {
 
             GameObject.FindObjectOfType<ObveserController>().Lose();

@@ -26,6 +26,8 @@ public class AutoGenerateMap : MonoBehaviour{
     public int mapRow;
     public int mapColumn;
 
+    public AudioFX musicController;
+
 	// Use this for initialization
 	void Start () {
         int mapSizeRow = 17;
@@ -38,6 +40,7 @@ public class AutoGenerateMap : MonoBehaviour{
         tilemaps = GameObject.Find("Tilemap");
         wallTilemap = GameObject.FindWithTag("wallTile").GetComponent<Tilemap>();
         lobbyTilemap = GameObject.FindWithTag("lobbyTile").GetComponent<Tilemap>();
+        musicController = GameObject.Find("AudioController").GetComponent<AudioFX>();
         autoGenerate();
     }
 	
@@ -358,6 +361,8 @@ public class AutoGenerateMap : MonoBehaviour{
         autoGenerationAvatars.generatePlayer();
         autoGenerationAvatars.generateFighters();
         autoGenerationAvatars.generateServants();
+        if(musicController!=null)
+            musicController.gamebgm();
         Debug.Log("finish load map");
     }
 }

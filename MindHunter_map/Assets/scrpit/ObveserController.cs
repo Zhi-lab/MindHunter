@@ -13,14 +13,16 @@ public class ObveserController : MonoBehaviour {
     public  PathFinder pathFinder;
     Vector2Int winRoom;
     static public bool isWaiting;
+    float alertSecond;
+    public AudioFX musicController;
     private void Awake()
     {
 
     }
     // Use this for initialization
     void Start(){
+        alertSecond = 0f;
         mapConfig = GameObject.FindObjectOfType<AutoGenerateMap>().config;
-        Debug.Log("start load map config");
         pathFinder = new PathFinder(mapConfig);
         pathFinder.init();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -29,14 +31,18 @@ public class ObveserController : MonoBehaviour {
         servants = GameObject.FindGameObjectsWithTag("servant");
         tileUtility = new TileUtility();
         winRoom = new Vector2Int(-2, 1);
+        musicController = GameObject.Find("AudioController").GetComponent<AudioFX>();
     }
     public void Lose()
     {
+        musicController.Alert.Stop();
+        musicController.lose();
         Destroy(player);
         Debug.Log("lose");
     }
     public void Win()
     {
+        musicController.win();
         Destroy(player);
         Debug.Log("win");
     }
@@ -47,19 +53,6 @@ public class ObveserController : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
-        if (mapConfig == null)
-        {
-            mapConfig = GameObject.FindObjectOfType<AutoGenerateMap>().config;
-            Debug.Log("start load map config");
-            pathFinder = new PathFinder(mapConfig);
-            pathFinder.init();
-            player = GameObject.FindGameObjectWithTag("Player");
-            boss = GameObject.FindGameObjectWithTag("boss");
-            fighters = GameObject.FindGameObjectsWithTag("fighter");
-            servants = GameObject.FindGameObjectsWithTag("servant");
-            tileUtility = new TileUtility();
-            winRoom = new Vector2Int(-2, 1);
-        }
         var playerRoom = CalcRoom(player.transform.position);
         bool alert = false;
         var attachTo = player.GetComponent<PlayerController>().attatchTo;
@@ -69,6 +62,7 @@ public class ObveserController : MonoBehaviour {
             if (CalcRoom(servant.transform.position)!=null&& CalcRoom(servant.transform.position)== playerRoom)
             {
                 alert = true;
+                musicController.alert();
                 break;
             }
         }
@@ -84,7 +78,14 @@ public class ObveserController : MonoBehaviour {
         {
             Win();
         }
-
+        if (alertSecond > 0)
+        {
+            alertSecond -= Time.deltaTime;
+            if(alertSecond<0)
+            {
+                unAlert();
+            }
+        }
         if (alert == true)
         {
             alertFighter(playerRoom);
@@ -97,7 +98,7 @@ public class ObveserController : MonoBehaviour {
             if (fighter == null) continue;
             fighter.GetComponent<OtherRoleController>().unAlert();
         }
-
+        musicController.Alert.Stop();
         Debug.Log("unalert");
     }
     public void alertFighter(Vector2Int? playerRoom)
@@ -108,7 +109,7 @@ public class ObveserController : MonoBehaviour {
                 fighter.GetComponent<OtherRoleController>().alert(playerRoom.Value);
         }
         Debug.Log("alert");
-        Invoke("unAlert", 30);
+        alertSecond = 30;
         
     }
 }

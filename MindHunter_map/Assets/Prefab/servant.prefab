@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1679043289090458}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.63, y: -1.38, z: 0}
+  m_LocalPosition: {x: 6.51, y: 2.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -94,11 +94,13 @@ MonoBehaviour:
   skillSprite: {fileID: 0}
   attatchTo: {fileID: 0}
   skillController: {fileID: 0}
+  musicController: {fileID: 0}
   scout: {x: 0, y: 0}
-  passTile_hori: {fileID: 0}
-  unpassTile_hori: {fileID: 0}
-  passTile_verti: {fileID: 0}
-  unpassTile_verti: {fileID: 0}
+  passTile_hori: {fileID: 11400000, guid: ad5c61cff23d1454d9855f99d1b4da93, type: 2}
+  unpassTile_hori: {fileID: 11400000, guid: efd07407b90f54b49ba983771aa1ad30, type: 2}
+  passTile_verti: {fileID: 11400000, guid: 2b0e6d1d82f50470e819d7b41169b7f2, type: 2}
+  unpassTile_verti: {fileID: 11400000, guid: 48e8c28cafddc476a9cee2750e89e305, type: 2}
+  walkPrecision: 0.1
 --- !u!212 &212983299844114588
 SpriteRenderer:
   m_ObjectHideFlags: 1

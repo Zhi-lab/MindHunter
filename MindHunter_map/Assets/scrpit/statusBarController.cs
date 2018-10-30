@@ -33,6 +33,7 @@ public class statusBarController : MonoBehaviour {
         {
             playerIcon.sprite = playerNormal;
             playerIcon.color = new Color(255, 255, 255, 255);
+            controlledEnemyIcon.color = new Color(255, 255, 255, 0);
         }
         else{
             playerIcon.sprite = playerUncontroled;

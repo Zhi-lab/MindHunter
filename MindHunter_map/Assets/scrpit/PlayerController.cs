@@ -17,12 +17,14 @@ public class PlayerController : MonoBehaviour
     float skillSpeed = 12;
     public GameObject attatchTo=null;
     public ScriptableObject skillController;
+    public AudioFX musicController;
 
 
     // Use this for initialization
     protected void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        musicController = GameObject.Find("AudioController").GetComponent<AudioFX>();
     }
 
      protected void move(bool enable=true)
@@ -95,6 +97,9 @@ public class PlayerController : MonoBehaviour
         skillRigid.gravityScale = 0;
         var skillController=gameObject.AddComponent<SkillController>();
         skillController.duration = 0.3f;
+
+        //audio
+        musicController.useskill();
     }
     void InputDetect()
     {

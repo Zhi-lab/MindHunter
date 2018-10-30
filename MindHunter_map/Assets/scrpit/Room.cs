@@ -38,6 +38,14 @@ public class Room {
         this.roomType = 0;
     }
 
+    public Room(int _ID, int _row, int _column, int _roomRight, int _roomDown){
+        this.ID = _ID;
+        this.row = _row;
+        this.column = _column;
+        this.roomRight = _roomRight;
+        this.roomDown = _roomDown;
+    }
+
     public void addConnectRooms(List<Room> roomList)
     {
         foreach(var room in roomList){
