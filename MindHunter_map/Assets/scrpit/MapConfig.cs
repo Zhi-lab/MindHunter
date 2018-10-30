@@ -50,11 +50,10 @@ public class MapConfig  {
         this.roomNumEachColumn = roomNumEachColumn;
         this.rowNum = roomNumEachColumn;
         this.columnNum = roomNumEachRow;
-        this.roomNum = roomNumEachColumn * roomNumEachRow;
         this.roomList = new List<Room>();
 
         //测试用
-        this.doorNum = Mathf.FloorToInt(roomNum / 10);
+        this.doorNum = 3;
         this.roomScale = 3;
 
         this.mapSizeRow = roomNumEachRow * roomScale + roomNumEachRow + 1;
@@ -71,20 +70,20 @@ public class MapConfig  {
     }
 
     //根据房间所在行列，返回房间的中心坐标（标准世界坐标）
-    public float[] getRoomCenterLocWithRandC(int roomRow, int roomColumn){
-        Room room = roomList.Find(x => x.ID == (roomRow - 1) * columnNum + roomColumn);
-        float[] roomCenterLoc = new float[2]{room.roomCenterLocX + 0.5f, room.roomCenterLocY + 0.5f};
+    public Vector3 getRoomCenterLocWithRandC(int roomRow, int roomColumn){
+        Room room = roomList.Find(x => x.ID == (roomRow) * columnNum + roomColumn+1);
+        Vector3 roomCenterLoc = new Vector3(room.roomCenterLocX + 0.5f, room.roomCenterLocY + 0.5f,0);
         return roomCenterLoc;
     }
 
     //根据某个二维坐标值返回该二维坐标值对应的房间行列
-    public int[] getRoomRandCWithRoomLoc(Vector2 position){
+    public Vector2Int? getRoomRandCWithRoomLoc(Vector2 position){
         float posX = position.x;
         float posY = position.y;
 
-        List<Room> rooms = roomList.FindAll(x => Mathf.Abs(x.roomCenterLocX - posX) < Mathf.FloorToInt(roomScale / 2) + 1);
-        Room room = rooms.Find(x => Mathf.Abs(x.roomCenterLocY - posY) < Mathf.FloorToInt(roomScale / 2) + 1);
-
-        return new int[2] { room.row, room.column };
+        List<Room> rooms = roomList.FindAll(x => Mathf.Abs(x.roomCenterLocX - posX+0.5f) < roomScale *0.5 && Mathf.Abs(x.roomCenterLocY - posY + 0.5f) < roomScale *0.5);
+        if (rooms.Count == 0)
+            return null;
+        return new Vector2Int(rooms[0].row-1, rooms[0].column-1);
     }
 }

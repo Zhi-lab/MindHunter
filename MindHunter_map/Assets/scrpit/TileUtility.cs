@@ -40,7 +40,7 @@ public class TileUtility : MonoBehaviour
      * changeToReplaceTile函数的作用是将指定tilemap上的指定网格位置上的tile进行替换，如果isHide = ture, 表示更改对象是阴影层tilemap
      * 参数：tilemap指定要作用的tilemap，position指定要更改的网格位置，replaceTile用于替换的tile，isHide该函数当前作用的tilemap是不是shadeTilemap
      */
-    public void changeToReplaceTile(Tilemap tilemap, Vector3Int position, TileBase replaceTile, bool isHide = false)
+    public bool changeToReplaceTile(Tilemap tilemap, Vector3Int position, TileBase replaceTile, bool isHide = false)
     {
         TileBase changedtile = tilemap.GetTile(position);
         //如果替换对象是来自于阴影层或者该函数用于生成地图，则直接替换
@@ -48,6 +48,7 @@ public class TileUtility : MonoBehaviour
         {
             tilemap.SetTile(position, replaceTile);
             //Debug.Log("Change tile in this position");
+            return true;
         }
         //如果替换对象不是来自于阴影层，则先判断该图层是否本身有tile，如果有的话才执行替换
         else
@@ -55,7 +56,9 @@ public class TileUtility : MonoBehaviour
             if (changedtile != null)
             {
                 tilemap.SetTile(position, replaceTile);
+                return true;
             }
+            return false;
         }
     }
 

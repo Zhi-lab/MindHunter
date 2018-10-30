@@ -9,16 +9,20 @@ public class ObveserController : MonoBehaviour {
     private GameObject[] fighters;
     private GameObject[] servants;
     private TileUtility tileUtility;
-    private PathFinder pathFinder;
-    public Vector2Int winRoom;
+    MapConfig mapConfig;
+    public  PathFinder pathFinder;
+    Vector2Int winRoom;
+    static public bool isWaiting;
     private void Awake()
     {
 
-        pathFinder = new PathFinder();
-        pathFinder.init();
     }
     // Use this for initialization
     void Start(){
+        
+        mapConfig = GameObject.FindObjectOfType<AutoGenerateMap>().config;
+        pathFinder = new PathFinder(mapConfig);
+        pathFinder.init();
         player = GameObject.FindGameObjectWithTag("Player");
         boss = GameObject.FindGameObjectWithTag("boss");
         fighters = GameObject.FindGameObjectsWithTag("fighter");
@@ -26,38 +30,39 @@ public class ObveserController : MonoBehaviour {
         tileUtility = new TileUtility();
         winRoom = new Vector2Int(-2, 1);
     }
-    void Lose()
+    public void Lose()
     {
         Destroy(player);
         Debug.Log("lose");
     }
-    void Win()
+    public void Win()
     {
         Destroy(player);
         Debug.Log("win");
     }
     Vector2Int? CalcRoom(Vector2 pos)
     {
-        var v2d= new Vector2Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y));
-        if (v2d.x % 4 == 0 || v2d.y % 4 == 0)
-            return null;
-        return new Vector2Int(Mathf.FloorToInt( v2d.x/4 ),Mathf.FloorToInt(v2d.y/4));
+        return mapConfig.getRoomRandCWithRoomLoc(pos);
+        
     }
 	// Update is called once per frame
 	void Update () {
         var playerRoom = CalcRoom(player.transform.position);
+        bool alert = false;
+        var attachTo = player.GetComponent<PlayerController>().attatchTo;
         foreach (var servant in servants)
         {
-            if (servant == null) continue;
-            if (CalcRoom(servant.transform.position)!=null& CalcRoom(servant.transform.position)== playerRoom)
+            if (servant == null||servant== attachTo) continue;
+            if (CalcRoom(servant.transform.position)!=null&& CalcRoom(servant.transform.position)== playerRoom)
             {
-                //servant.alert(CalcRoom(servant.transform.position));
+                alert = true;
+                break;
             }
         }
         foreach (var fighter in fighters)
         {
-            if (fighter == null) continue;
-            if (CalcRoom(fighter.transform.position) != null & CalcRoom(fighter.transform.position) == playerRoom)
+            if (fighter == null || fighter == attachTo) continue;
+            if (CalcRoom(fighter.transform.position) != null && CalcRoom(fighter.transform.position) == playerRoom)
             {
                 Lose();
             }
@@ -66,5 +71,31 @@ public class ObveserController : MonoBehaviour {
         {
             Win();
         }
+
+        if (alert == true)
+        {
+            alertFighter(playerRoom);
+        }
+    }
+     void unAlert()
+     {
+        foreach (var fighter in fighters)
+        {
+            if (fighter == null) continue;
+            fighter.GetComponent<OtherRoleController>().unAlert();
+        }
+
+        Debug.Log("unalert");
+    }
+    public void alertFighter(Vector2Int? playerRoom)
+    {
+        foreach (var fighter in fighters)
+        {
+            if (fighter == null) continue;
+                fighter.GetComponent<OtherRoleController>().alert(playerRoom.Value);
+        }
+        Debug.Log("alert");
+        Invoke("unAlert", 30);
+        
     }
 }
