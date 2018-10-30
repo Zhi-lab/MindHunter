@@ -86,4 +86,18 @@ public class MapConfig  {
             return null;
         return new Vector2Int(rooms[0].row-1, rooms[0].column-1);
     }
+    public Vector2Int getNearestRoomLoc(Vector3 position)
+    {
+        float dis = (getRoomCenterLocWithRandC(roomList[0].row, roomList[0].column)-position).magnitude;
+        Room nearest = roomList[0];
+        foreach(var room in roomList)
+        {
+            if((getRoomCenterLocWithRandC(room.row-1, room.column-1) - position).magnitude<dis)
+            {
+                nearest = room;
+                dis = (getRoomCenterLocWithRandC(room.row-1, room.column-1) - position).magnitude;
+            }
+        }
+        return new Vector2Int(nearest.row - 1, nearest.column - 1);
+    }
 }

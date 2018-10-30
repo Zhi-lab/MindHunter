@@ -13,13 +13,14 @@ public class ObveserController : MonoBehaviour {
     public  PathFinder pathFinder;
     Vector2Int winRoom;
     static public bool isWaiting;
+    float alertSecond;
     private void Awake()
     {
 
     }
     // Use this for initialization
     void Start(){
-        
+        alertSecond = 0f;
         mapConfig = GameObject.FindObjectOfType<AutoGenerateMap>().config;
         pathFinder = new PathFinder(mapConfig);
         pathFinder.init();
@@ -71,7 +72,14 @@ public class ObveserController : MonoBehaviour {
         {
             Win();
         }
-
+        if (alertSecond > 0)
+        {
+            alertSecond -= Time.deltaTime;
+            if(alertSecond<0)
+            {
+                unAlert();
+            }
+        }
         if (alert == true)
         {
             alertFighter(playerRoom);
@@ -95,7 +103,7 @@ public class ObveserController : MonoBehaviour {
                 fighter.GetComponent<OtherRoleController>().alert(playerRoom.Value);
         }
         Debug.Log("alert");
-        Invoke("unAlert", 30);
+        alertSecond = 30;
         
     }
 }
