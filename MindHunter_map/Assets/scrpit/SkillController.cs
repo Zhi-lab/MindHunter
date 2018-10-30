@@ -18,16 +18,22 @@ public class SkillController : MonoBehaviour
         Debug.Log("start skill");
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D  collider)
     {
-        if (collision.collider.tag == "fighter"|| collision.collider.tag == "servant")
+        if (collider.tag == "fighter"|| collider.tag == "servant")
         {
             var playerController= player.GetComponent<PlayerController>();
             playerController.enabled = false;
-            playerController.attatchTo = collision.collider.gameObject;
+            playerController.attatchTo = collider.gameObject;
             player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            collider.isTrigger = false;
         }
-        else if(collision.collider!=player)
+    }
+
+    private void OnColliderEnter2D(Collision collision)
+    {
+        
+        if (collision.collider != player)
         {
             Destroy(gameObject);
             Destroy(this);
