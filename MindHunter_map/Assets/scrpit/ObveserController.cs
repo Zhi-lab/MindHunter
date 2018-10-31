@@ -10,10 +10,13 @@ public class ObveserController : MonoBehaviour {
     private GameObject[] servants;
     private TileUtility tileUtility;
     MapConfig mapConfig;
-    public  PathFinder pathFinder;
     Vector2Int winRoom;
-    static public bool isWaiting;
     float alertSecond;
+    float controlSecond;
+
+    public float alertDuration;
+    public float controlDuration;
+    public  PathFinder pathFinder;
     private void Awake()
     {
 
@@ -51,11 +54,14 @@ public class ObveserController : MonoBehaviour {
         var playerRoom = CalcRoom(player.transform.position);
         bool alert = false;
         var attachTo = player.GetComponent<PlayerController>().attatchTo;
+        //相同房间判定
         foreach (var servant in servants)
         {
             if (servant == null||servant== attachTo) continue;
             if (CalcRoom(servant.transform.position)!=null&& CalcRoom(servant.transform.position)== playerRoom)
             {
+                var otherRoleController = servant.GetComponent<OtherRoleController>();
+                otherRoleController.alert(playerRoom.Value);
                 alert = true;
                 break;
             }
@@ -72,6 +78,7 @@ public class ObveserController : MonoBehaviour {
         {
             Win();
         }
+        //警报时间判定
         if (alertSecond > 0)
         {
             alertSecond -= Time.deltaTime;
@@ -84,6 +91,19 @@ public class ObveserController : MonoBehaviour {
         {
             alertFighter(playerRoom);
         }
+        //控制时间判定
+        var attachObject = player.GetComponent<PlayerController>().attatchTo;
+        if (attachObject != null)
+        {
+            controlSecond -= Time.deltaTime;
+            if (controlSecond < 0)
+            {
+                attachObject.GetComponent<OtherRoleController>().release();
+                Debug.Log("control time up");
+                controlSecond = controlDuration;
+            }
+        }
+        else { controlSecond = controlDuration; }
     }
      void unAlert()
      {
@@ -100,10 +120,10 @@ public class ObveserController : MonoBehaviour {
         foreach (var fighter in fighters)
         {
             if (fighter == null) continue;
-                fighter.GetComponent<OtherRoleController>().alert(playerRoom.Value);
+            fighter.GetComponent<OtherRoleController>().alert(playerRoom.Value);
         }
         Debug.Log("alert");
-        alertSecond = 30;
+        alertSecond = alertDuration;
         
     }
 }

@@ -15,6 +15,7 @@ public class OtherRoleController : PlayerController
     private Vector2Int target;
     private Vector2Int next;
     private Vector2Int born;
+    private bool isAlerting;
     Vector3Int RoomPos;
     PathFinder pathFinder;
     public Vector2Int scout;
@@ -22,7 +23,9 @@ public class OtherRoleController : PlayerController
     public TileBase unpassTile_hori;
     public TileBase passTile_verti;
     public TileBase unpassTile_verti;
-    public double walkPrecision=0.1;
+    public double walkPrecision = 0.1;
+    public Sprite alertingSprite;
+    public Sprite commonSprite;
     protected new void Start()
     {
         born = GameObject.FindObjectOfType<AutoGenerateMap>().config.getRoomRandCWithRoomLoc(new Vector2(transform.position.x, transform.position.y)).Value;
@@ -36,6 +39,7 @@ public class OtherRoleController : PlayerController
             target = born;
             next = born;
         }
+        isAlerting = false;
         doorTileMap = GameObject.FindGameObjectWithTag("doorTile").GetComponent<Tilemap>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
@@ -44,13 +48,13 @@ public class OtherRoleController : PlayerController
         base.Start();
     }
 
-    void release()
+    public void release()
     {
         GetComponent<Collider2D>().isTrigger = true;
         playerController.enabled = true;
         playerController.attatchTo = null;
         gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-        next = mapConfig.getNearestRoomLoc(new Vector2(transform.position.x,transform.position.y));
+        next = mapConfig.getNearestRoomLoc(new Vector2(transform.position.x, transform.position.y));
     }
     //	Update is called once per frame
     void FixedUpdate()
@@ -67,13 +71,15 @@ public class OtherRoleController : PlayerController
                 pressed = false;
                 release();
             }
-            if(tag=="servant"&&Input.GetMouseButtonDown(1)&&mapConfig.getRoomRandCWithRoomLoc(transform.position)!=null)
+            if (tag == "servant" && (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.X)) && mapConfig.getRoomRandCWithRoomLoc(transform.position) != null)
             {
-                GameObject.FindObjectOfType<ObveserController>().alertFighter(mapConfig.getRoomRandCWithRoomLoc(transform.position));
+                var nearestRoom = mapConfig.getNearestRoomLoc(transform.position);
+                GameObject.FindObjectOfType<ObveserController>().alertFighter(nearestRoom);
+                alert(nearestRoom);
                 release();
             }
         }
-        else 
+        else
         {
             var nowRoom = mapConfig.getRoomRandCWithRoomLoc(transform.position);
             if (nowRoom != null)
@@ -84,9 +90,9 @@ public class OtherRoleController : PlayerController
                     var dir = direction / 2;
                     GetComponent<Rigidbody2D>().velocity = (dir - transform.position).normalized * speed;
                 }
-                else if (next == nowRoom && (mapConfig.getRoomCenterLocWithRandC(next.x, next.y) - transform.position).sqrMagnitude <= walkPrecision)
+                else if (next == nowRoom && (mapConfig.getRoomCenterLocWithRandC(next.x, next.y) - transform.position).magnitude <= walkPrecision)
                 {
-                    if (tag == "servant" && nowRoom == target)
+                    if (tag == "servant" && nowRoom == target&&!isAlerting)
                     {
                         if (target == scout)
                             target = born;
@@ -94,23 +100,32 @@ public class OtherRoleController : PlayerController
                             target = scout;
                     }
                     var tmp = pathFinder.GoForward(nowRoom.Value, target, tag);
-                    next = tmp.HasValue ? tmp.Value : next;
+                    next = tmp.HasValue ? tmp.Value : mapConfig.getNearestRoomLoc(transform.position);
                 }
             }
-            if(nowRoom==null||(next == nowRoom && (mapConfig.getRoomCenterLocWithRandC(next.x, next.y) - transform.position).sqrMagnitude > walkPrecision))
+            if (nowRoom == null || (next == nowRoom && (mapConfig.getRoomCenterLocWithRandC(next.x, next.y) - transform.position).magnitude > walkPrecision))
             {
-                GetComponent<Rigidbody2D>().velocity = (mapConfig.getRoomCenterLocWithRandC(next.x, next.y) - transform.position).normalized*speed;
+                GetComponent<Rigidbody2D>().velocity = (mapConfig.getRoomCenterLocWithRandC(next.x, next.y) - transform.position).normalized * speed;
             }
         }
     }
-    public void  alert(Vector2Int alertRoom)
+    public void alert(Vector2Int alertRoom)
     {
         target = alertRoom;
+        if (tag == "servant")
+        {
+            isAlerting = true;
+            GetComponent<SpriteRenderer>().sprite = alertingSprite;
+            Invoke("unAlert", GameObject.FindObjectOfType<ObveserController>().alertDuration);
+        }
     }
 
     public void unAlert()
     {
         target = born;
+        isAlerting = false;
+        if (tag == "servant")
+            GetComponent<SpriteRenderer>().sprite = commonSprite;
     }
     private void OnTriggerExit2D(Collider2D collider)
     {
@@ -163,7 +178,7 @@ public class OtherRoleController : PlayerController
             //}
         }
 
-        if (tag == "fighter" && collider.tag == "Player"&&playerController.attatchTo!=gameObject)
+        if (tag == "fighter" && collider.tag == "Player" && playerController.attatchTo != gameObject)
         {
 
             GameObject.FindObjectOfType<ObveserController>().Lose();
@@ -189,7 +204,8 @@ public class OtherRoleController : PlayerController
             var doorTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
             var contact = collision.GetContact(0).point;
             var pos = tileUtility.getAvatarPosInTilemap(2 * new Vector3(contact.x, contact.y) - transform.position);
-            if (doorTileMap.GetTile(pos)==unpassTile_verti) {
+            if (doorTileMap.GetTile(pos) == unpassTile_verti)
+            {
                 RoomPos = pos;
                 if (tileUtility.changeToReplaceTile(doorTileMap, pos, passTile_verti))
                 {
@@ -211,7 +227,7 @@ public class OtherRoleController : PlayerController
 
             if (tag == "fighter" && (collision.collider.tag == "boss" || collision.collider.tag == "servant" || collision.collider.tag == "fighter"))
             {
-                Debug.Log("fighter  kill "+gameObject.tag);
+                Debug.Log("fighter  kill " + gameObject.tag);
                 Destroy(collision.collider.gameObject);
                 release();
             }

@@ -8,15 +8,15 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
 
-    public float speed;
     private Rigidbody2D rb;
-    public int viewSize = 5;
-    Skill skill=new Skill(KeyCode.C,100);
-    public Sprite skillSprite;//2D Sprite的预设
+    Skill skill = new Skill(KeyCode.C, 100);
     private Sprite skillEffect;//要创建的Sprite
-    float skillSpeed = 12;
-    public GameObject attatchTo=null;
+    float skillSpeed = 5;
+    public GameObject attatchTo = null;
     public ScriptableObject skillController;
+    public float speed;
+    public GameObject skillPrefab;
+    public int viewSize = 5;
 
     // Use this for initialization
     protected void Start()
@@ -24,9 +24,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-     protected void  move(bool enable=true)
+    protected void move(bool enable = true)
     {
-        if(enable==false)
+        if (enable == false)
         {
             rb.velocity = new Vector2(0, 0);
             return;
@@ -37,8 +37,8 @@ public class PlayerController : MonoBehaviour
             Vector3 mousePosInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             moveHorizontal = (mousePosInWorld.x - rb.position.x);
             moveVertical = (mousePosInWorld.y - rb.position.y);
-            float dis =Mathf.Sqrt( moveHorizontal* moveHorizontal+ moveVertical* moveVertical);
-            moveHorizontal *= speed /dis;
+            float dis = Mathf.Sqrt(moveHorizontal * moveHorizontal + moveVertical * moveVertical);
+            moveHorizontal *= speed / dis;
             moveVertical *= speed / dis;
         }
         else
@@ -74,27 +74,16 @@ public class PlayerController : MonoBehaviour
 
     void CastSkill()
     {
-        skillSprite=Resources.Load<Sprite>("skillSprite");
-        GameObject gameObject = new GameObject();
-        var spriteRenderer=gameObject.AddComponent<SpriteRenderer>();
-        var r1 = gameObject.AddComponent<CircleCollider2D>().radius;
         var r2 = GetComponent<CircleCollider2D>().radius;
-        spriteRenderer.sprite = skillSprite;
-        skillEffect = Sprite.Instantiate(skillSprite, rb.position, Quaternion.identity);//在这里创建Sprite
-        gameObject.transform.localScale = new Vector3(0.2f,0.2f,0.2f);
-
+        var r1 = skillPrefab.GetComponent<CircleCollider2D>().radius;
         Vector3 mousePosInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var rbpos3d = new Vector3(rb.position.x, rb.position.y,0);
-        var pos= mousePosInWorld-rbpos3d;
+        var rbpos3d = new Vector3(rb.position.x, rb.position.y, 0);
+        var pos = mousePosInWorld - rbpos3d;
         pos.z = 0;
-        gameObject.transform.position = rbpos3d+pos.normalized * (r1+r2);
-
-        var skillRigid = gameObject.AddComponent<Rigidbody2D>();
-        skillRigid.mass = 0;
-        skillRigid.velocity = pos.normalized * skillSpeed;
-        skillRigid.gravityScale = 0;
-        var skillController=gameObject.AddComponent<SkillController>();
-        skillController.duration = 0.3f;
+        Vector3 skillPos = rbpos3d + pos.normalized * (r1 + r2);
+        Quaternion skillRotation = new Quaternion(0f, 0f, 0f, 0f);
+        var rigidbody2D=GameObject.Instantiate(skillPrefab, skillPos, skillRotation).GetComponent<Rigidbody2D>();
+        rigidbody2D.velocity = pos.normalized * skillSpeed;
     }
     void InputDetect()
     {
@@ -109,10 +98,10 @@ public class PlayerController : MonoBehaviour
             skill.holdFrames++;
             Debug.Log("连按:" + skill.holdFrames + "帧");
         }
-        if (Input.GetMouseButtonUp(1)|| (skill.holdFrames!=0&&!Input.GetMouseButton(1)))
+        if (Input.GetMouseButtonUp(1) || (skill.holdFrames != 0 && !Input.GetMouseButton(1)))
         {
             //抬起后清空帧数
-            skill.holdFrames=0;
+            skill.holdFrames = 0;
             Debug.Log("释放");
             CastSkill();
             return;

@@ -7,7 +7,7 @@ public class SkillController : MonoBehaviour
     public float skillSpeed { get; set; }
 
     GameObject player;
-    public float duration { get; set; }
+    public float duration;
     private float restTime { get; set; }
     // Use this for initialization
     void Start()
@@ -28,9 +28,44 @@ public class SkillController : MonoBehaviour
             player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
             collider.isTrigger = false;
         }
+
+        if (collider != player)
+        {
+            Destroy(gameObject);
+            Destroy(this);
+        }
     }
 
-    private void OnColliderEnter2D(Collision collision)
+
+    private void OnTriggerStay2D(Collider2D collider)
+    {
+
+        if (collider.tag == "fighter" || collider.tag == "servant")
+        {
+            var playerController = player.GetComponent<PlayerController>();
+            playerController.enabled = false;
+            playerController.attatchTo = collider.gameObject;
+            player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            collider.isTrigger = false;
+        }
+
+        if (collider != player)
+        {
+            Destroy(gameObject);
+            Destroy(this);
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+
+
+        if (collision.collider != player)
+        {
+            Destroy(gameObject);
+            Destroy(this);
+        }
+    }
+    private void OnCollisionEnter2D(Collision collision)
     {
         
         if (collision.collider != player)

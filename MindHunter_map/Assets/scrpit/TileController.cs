@@ -19,11 +19,11 @@ public class TileController : MonoBehaviour {
     void Start()
     {
         //tilemap = GetComponent<Tilemap>();
+        shadeTilemap = GameObject.FindGameObjectWithTag("shadeTile").GetComponent<Tilemap>();
+        tileUtility = new TileUtility();
         player = GameObject.FindGameObjectWithTag("Player");//.GetComponent<PlayerCountroller>();
         playerController = player.GetComponent<PlayerController>();
         playerTransform = player.transform;
-        shadeTilemap = GameObject.FindGameObjectWithTag("shadeTile").GetComponent<Tilemap>();
-        tileUtility = new TileUtility();
 
         //测试
         //changeToReplaceTile(tilemap, player.GetComponent<PlayerCountroller>().getPlayerPosInTilemap(), replaceTiles[0]);
@@ -32,6 +32,11 @@ public class TileController : MonoBehaviour {
     void Update()
     {
         int viewSize;
+        if(player == null){
+            player = GameObject.FindGameObjectWithTag("Player");//.GetComponent<PlayerCountroller>();
+            playerController = player.GetComponent<PlayerController>();
+            playerTransform = player.transform;
+        }
         if(playerController.attatchTo!=null)
         {
             playerTransform = playerController.attatchTo.transform;
