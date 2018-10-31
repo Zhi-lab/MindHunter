@@ -26,9 +26,12 @@ public class OtherRoleController : PlayerController
     public double walkPrecision = 0.1;
     public Sprite alertingSprite;
     public Sprite commonSprite;
+    statusBarController statusBar;
+
     protected new void Start()
     {
         born = GameObject.FindObjectOfType<AutoGenerateMap>().config.getRoomRandCWithRoomLoc(new Vector2(transform.position.x, transform.position.y)).Value;
+        statusBar = GameObject.Find("statusBar").GetComponent<statusBarController>();
         if (tag == "servant")
         {
             target = scout;
@@ -55,10 +58,20 @@ public class OtherRoleController : PlayerController
         playerController.attatchTo = null;
         gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         next = mapConfig.getNearestRoomLoc(new Vector2(transform.position.x, transform.position.y));
+
+        //Ui
+        statusBar.setPlayerIcon(true);
+        statusBar.setButtons();
+
+        //audio
+        musicController.switchtarget();
     }
     //	Update is called once per frame
     void FixedUpdate()
     {
+        //if(pathFinder == null){
+            //pathFinder = GameObject.FindObjectOfType<ObveserController>().pathFinder;
+        //}
         if (playerController.attatchTo == gameObject)
         {
             move();
@@ -112,6 +125,7 @@ public class OtherRoleController : PlayerController
     public void alert(Vector2Int alertRoom)
     {
         target = alertRoom;
+        statusBar.setAlarmIcon(true);
         if (tag == "servant")
         {
             isAlerting = true;
@@ -123,6 +137,7 @@ public class OtherRoleController : PlayerController
     public void unAlert()
     {
         target = born;
+        statusBar.setAlarmIcon(false);
         isAlerting = false;
         if (tag == "servant")
             GetComponent<SpriteRenderer>().sprite = commonSprite;
@@ -155,6 +170,7 @@ public class OtherRoleController : PlayerController
     {
         if (tag == "servant" && collider.tag == "doorTile")
         {
+            //musicController.openthedoor();
             Debug.Log("open door");
             var doorTileMap = collider.gameObject.GetComponent<Tilemap>();
             Debug.Log(collider.name);
@@ -200,6 +216,7 @@ public class OtherRoleController : PlayerController
     {
         if (tag == "servant" && collision.collider.tag == "doorTile")
         {
+            musicController.openthedoor();
             Debug.Log("open door");
             var doorTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
             var contact = collision.GetContact(0).point;
@@ -227,6 +244,7 @@ public class OtherRoleController : PlayerController
 
             if (tag == "fighter" && (collision.collider.tag == "boss" || collision.collider.tag == "servant" || collision.collider.tag == "fighter"))
             {
+                musicController.fighterattack();
                 Debug.Log("fighter  kill " + gameObject.tag);
                 Destroy(collision.collider.gameObject);
                 release();

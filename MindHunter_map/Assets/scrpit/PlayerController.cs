@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     float skillSpeed = 5;
     public GameObject attatchTo = null;
     public ScriptableObject skillController;
+    public AudioFX musicController;
+
     public float speed;
     public GameObject skillPrefab;
     public int viewSize = 5;
@@ -22,6 +24,7 @@ public class PlayerController : MonoBehaviour
     protected void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        musicController = GameObject.Find("AudioController").GetComponent<AudioFX>();
     }
 
     protected void move(bool enable = true)
@@ -69,7 +72,6 @@ public class PlayerController : MonoBehaviour
             }
         }
         rb.velocity = new Vector2(moveHorizontal, moveVertical);
-
     }
 
     void CastSkill()
@@ -84,6 +86,9 @@ public class PlayerController : MonoBehaviour
         Quaternion skillRotation = new Quaternion(0f, 0f, 0f, 0f);
         var rigidbody2D=GameObject.Instantiate(skillPrefab, skillPos, skillRotation).GetComponent<Rigidbody2D>();
         rigidbody2D.velocity = pos.normalized * skillSpeed;
+
+        //audio
+        musicController.useskill();
     }
     void InputDetect()
     {

@@ -13,6 +13,7 @@ public class ObveserController : MonoBehaviour {
     Vector2Int winRoom;
     float alertSecond;
     float controlSecond;
+    public AudioFX musicController;
 
     public float alertDuration;
     public float controlDuration;
@@ -33,14 +34,18 @@ public class ObveserController : MonoBehaviour {
         servants = GameObject.FindGameObjectsWithTag("servant");
         tileUtility = new TileUtility();
         winRoom = new Vector2Int(-2, 1);
+        musicController = GameObject.Find("AudioController").GetComponent<AudioFX>();
     }
     public void Lose()
     {
+        musicController.Alert.Stop();
+        musicController.lose();
         Destroy(player);
         Debug.Log("lose");
     }
     public void Win()
     {
+        musicController.win();
         Destroy(player);
         Debug.Log("win");
     }
@@ -63,6 +68,7 @@ public class ObveserController : MonoBehaviour {
                 var otherRoleController = servant.GetComponent<OtherRoleController>();
                 otherRoleController.alert(playerRoom.Value);
                 alert = true;
+                musicController.alert();
                 break;
             }
         }
@@ -112,7 +118,7 @@ public class ObveserController : MonoBehaviour {
             if (fighter == null) continue;
             fighter.GetComponent<OtherRoleController>().unAlert();
         }
-
+        musicController.Alert.Stop();
         Debug.Log("unalert");
     }
     public void alertFighter(Vector2Int? playerRoom)

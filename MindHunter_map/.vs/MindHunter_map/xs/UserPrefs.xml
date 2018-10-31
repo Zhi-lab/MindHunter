@@ -1,14 +1,27 @@
 ﻿<Properties StartupConfiguration="{F6692542-714B-478B-F4B1-B0284E818619}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scrpit/TileUtility.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scrpit/SkillController.cs">
     <Files>
-      <File FileName="Assets/scrpit/MapConfig.cs" Line="1" Column="1" />
-      <File FileName="Assets/scrpit/TileUtility.cs" Line="75" Column="41" />
+      <File FileName="Assets/scrpit/OtherRoleController.cs" Line="160" Column="75" />
+      <File FileName="Assets/scrpit/PlayerController.cs" Line="27" Column="1" />
+      <File FileName="Assets/scrpit/ObveserController.cs" Line="109" Column="38" />
+      <File FileName="Assets/scrpit/AutoGenerateMap.cs" Line="226" Column="139" />
+      <File FileName="Assets/scrpit/class/pathFinder.cs" Line="73" Column="1" />
+      <File FileName="Assets/scrpit/statusBarController.cs" Line="34" Column="46" />
+      <File FileName="Assets/scrpit/AudioFX.cs" Line="52" Column="23" />
+      <File FileName="Assets/scrpit/SkillController.cs" Line="29" Column="34" />
+      <File FileName="Assets/scrpit/StartToMiddle.cs" Line="19" Column="38" />
+      <File FileName="Assets/scrpit/StoryController.cs" Line="28" Column="9" />
+      <File FileName="Assets/scrpit/MapConfig.cs" Line="55" Column="19" />
+      <File FileName="Assets/scrpit/Room.cs" Line="45" Column="37" />
+      <File FileName="Assets/scrpit/TutorialObserverController.cs" Line="36" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/jerry/MindHunter/MindHunter_map/Assets/scrpit/ObveserController.cs" relfile="Assets/scrpit/ObveserController.cs" line="56" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />

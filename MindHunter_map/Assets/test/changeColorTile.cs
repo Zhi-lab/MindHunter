@@ -10,7 +10,6 @@ public class changeColorTile : TileBase
     private int counter = 0;
 
     void Update(){
-        Debug.Log(counter);
     	counter += 1;
     }
 
