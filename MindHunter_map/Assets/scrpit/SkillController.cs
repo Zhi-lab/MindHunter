@@ -25,6 +25,8 @@ public class SkillController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D  collider)
     {
+        Debug.Log("Trigger");
+        Debug.Log(collider.name);
         if (collider.tag == "fighter"|| collider.tag == "servant")
         {
             var playerController= player.GetComponent<PlayerController>();
@@ -37,12 +39,15 @@ public class SkillController : MonoBehaviour
             statusBar.setButtons(collider.tag);
             //audio
             musicController.switchtarget();
+        }if(collider.name == "wallTilemap"){
+            Destroy(gameObject);
+            Destroy(this);
         }
     }
 
     private void OnColliderEnter2D(Collision collision)
     {
-        
+        Debug.Log("Collision");
         if (collision.collider != player)
         {
             Destroy(gameObject);

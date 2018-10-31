@@ -81,6 +81,7 @@
     <Compile Include="Assets\scrpit\StoryController.cs" />
     <Compile Include="Assets\scrpit\TileController.cs" />
     <Compile Include="Assets\scrpit\TileUtility.cs" />
+    <Compile Include="Assets\scrpit\TutorialObserverController.cs" />
     <Compile Include="Assets\scrpit\TutorialOtherController.cs" />
     <Compile Include="Assets\test\changeColorTile.cs" />
     <Compile Include="Assets\test\NeighbourTile.cs" />

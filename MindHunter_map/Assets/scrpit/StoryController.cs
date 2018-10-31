@@ -32,19 +32,15 @@ public class StoryController : MonoBehaviour {
 
         if (tileUtility.getAvatarPosInTilemap(player.transform.position) == storyPosList[0])
         {
-            Debug.Log("story");
-            //故事1触发
-            Debug.Log("story1");
-            hideAvatar("servant");
-            hideAvatar("fighter");
+            //hideAvatar("servant");
+            //hideAvatar("fighter");
             storyImg.sprite = storyImgList[0];
             //storyImg.color = new Color(255, 255, 255, 10);
             //showStory(false);
         }
         else if(tileUtility.getAvatarPosInTilemap(player.transform.position) == storyPosList[1])
         {
-            Debug.Log("story1");
-            hideAvatar("servant");
+            showAvatar("servant");
             hideAvatar("fighter");
             storyImg.sprite = storyImgList[1];
             //storyImg.color = new Color(255, 255, 255, 100);

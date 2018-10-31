@@ -9,7 +9,7 @@ public class TutorialOtherController : PlayerController
     private bool pressed = false;
     TileUtility tileUtility = new TileUtility();
     private Tilemap doorTileMap;
-    MapConfig mapConfig;
+    //MapConfig mapConfig;
     GameObject player;
     PlayerController playerController;
     private Vector2Int target;
@@ -25,13 +25,16 @@ public class TutorialOtherController : PlayerController
     public double walkPrecision = 0.1;
     statusBarController statusBar;
 
-    public MapConfig config;
+    public MapConfig mapConfig;
 
     protected new void Start()
     {
-        config = new MapConfig();
-        born = config.getRoomRandCWithRoomLoc(new Vector2(transform.position.x, transform.position.y)).Value;
+        mapConfig = new MapConfig();
+        born = mapConfig.getRoomRandCWithRoomLoc(new Vector2(transform.position.x, transform.position.y)).Value;
         statusBar = GameObject.Find("statusBar").GetComponent<statusBarController>();
+        target = scout;
+        next = born;
+        /*
         if (tag == "servant")
         {
             target = scout;
@@ -41,12 +44,12 @@ public class TutorialOtherController : PlayerController
         {
             target = born;
             next = born;
-        }
-        doorTileMap = GameObject.FindGameObjectWithTag("doorTile").GetComponent<Tilemap>();
+        }*/
+        //doorTileMap = GameObject.FindGameObjectWithTag("doorTile").GetComponent<Tilemap>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
-        mapConfig = GameObject.FindObjectOfType<AutoGenerateMap>().config;
-        pathFinder = GameObject.FindObjectOfType<ObveserController>().pathFinder;
+        //mapConfig = GameObject.FindObjectOfType<AutoGenerateMap>().config;
+        pathFinder = GameObject.FindObjectOfType<TutorialObserverController>().pathFinder;
         base.Start();
     }
 
@@ -68,6 +71,7 @@ public class TutorialOtherController : PlayerController
     //  Update is called once per frame
     void FixedUpdate()
     {
+        Debug.Log(tag);
         //if(pathFinder == null){
         //pathFinder = GameObject.FindObjectOfType<ObveserController>().pathFinder;
         //}
@@ -85,7 +89,7 @@ public class TutorialOtherController : PlayerController
             }
             if (tag == "servant" && Input.GetMouseButtonDown(1) && mapConfig.getRoomRandCWithRoomLoc(transform.position) != null)
             {
-                GameObject.FindObjectOfType<ObveserController>().alertFighter(mapConfig.getRoomRandCWithRoomLoc(transform.position));
+                GameObject.FindObjectOfType<TutorialObserverController>().alertFighter(mapConfig.getRoomRandCWithRoomLoc(transform.position));
                 release();
             }
         }
@@ -185,7 +189,7 @@ public class TutorialOtherController : PlayerController
         if (tag == "fighter" && collider.tag == "Player" && playerController.attatchTo != gameObject)
         {
 
-            GameObject.FindObjectOfType<ObveserController>().Lose();
+            GameObject.FindObjectOfType<TutorialObserverController>().Lose();
         }
 
         if (playerController.attatchTo == gameObject)
@@ -241,7 +245,7 @@ public class TutorialOtherController : PlayerController
         if (tag == "fighter" && collision.collider.tag == "Player" && playerController.attatchTo != gameObject)
         {
 
-            GameObject.FindObjectOfType<ObveserController>().Lose();
+            GameObject.FindObjectOfType<TutorialObserverController>().Lose();
         }
     }
 }

@@ -33,22 +33,27 @@ public class MapConfig  {
     {
         this.roomNumEachRow = 4;
         this.roomNumEachColumn = 4;
-        this.rowNum = roomNumEachColumn;
-        this.columnNum = roomNumEachRow;
-        this.roomNum = rowNum * columnNum;
+        this.rowNum = this.roomNumEachColumn;
+        this.columnNum = this.roomNumEachRow;
+        this.roomNum = this.rowNum * this.columnNum;
         this.doorNum = 2;
         this.roomScale = 3;
-        this.mapSizeRow = roomNumEachRow * roomScale + roomNumEachRow + 1;
-        this.mapSizeColumn = roomNumEachColumn * roomScale + roomNumEachColumn + 1;
+        this.mapSizeRow = this.roomNumEachRow * this.roomScale + this.roomNumEachRow + 1;
+        this.mapSizeColumn = this.roomNumEachColumn * this.roomScale + this.roomNumEachColumn + 1;
         this.roomList = new List<Room>();
-        int[] _roomRight = { 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1 };
-        int[] _roomDown = { 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1 };
-        for (int r = 0; r < rowNum; r++)
+        int[] _roomRight = { 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1 };
+        int[] _roomDown = { 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1 };
+        for (int r = 0; r < this.roomNumEachColumn; r++)
         {
-            for (int c = 0; c < columnNum; c++)
+            for (int c = 0; c < this.roomNumEachRow; c++)
             {
-                Room room = new Room((r - 1) * columnNum + c + 1, r + 1, c + 1, _roomRight[0], _roomRight[1]);
-                roomList.Add(room);
+                int ID = r * this.columnNum + c + 1;
+                Room room = new Room(r * this.columnNum + c + 1, r + 1, c + 1, _roomRight[ID-1], _roomDown[ID - 1])
+                {
+                    roomCenterLocX = -(this.mapSizeRow - 1) / 2 + Mathf.FloorToInt(this.roomScale / 2) + 1 + c * (this.roomScale + 1),
+                    roomCenterLocY = (this.mapSizeColumn - 1) / 2 - Mathf.FloorToInt(this.roomScale / 2) - 1 - r * (this.roomScale + 1)
+                };
+                this.roomList.Add(room);
             }
         }
     }
@@ -107,12 +112,15 @@ public class MapConfig  {
 
     //根据某个二维坐标值返回该二维坐标值对应的房间行列
     public Vector2Int? getRoomRandCWithRoomLoc(Vector2 position){
+
         float posX = position.x;
         float posY = position.y;
-
         List<Room> rooms = roomList.FindAll(x => Mathf.Abs(x.roomCenterLocX - posX+0.5f) < roomScale *0.5 && Mathf.Abs(x.roomCenterLocY - posY + 0.5f) < roomScale *0.5);
         if (rooms.Count == 0)
+        {
+            Debug.Log("No room");
             return null;
+        }
         return new Vector2Int(rooms[0].row-1, rooms[0].column-1);
     }
     public Vector2Int getNearestRoomLoc(Vector3 position)
